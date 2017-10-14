@@ -2,10 +2,11 @@ import React from "react";
 import { connect } from "react-redux";
 import Counter from "./Counter";
 import AlgorithmPanel from "./AlgorithmPanel";
+import {getAlgorithm} from '../algorithm'
 
 class App extends React.Component {
   render() {
-    console.log(this.props);
+    const algorithm = getAlgorithm();
     return (
       <div>
         <Counter
@@ -14,7 +15,7 @@ class App extends React.Component {
           onDecrement={this.props.decrement}
         />
         <div style={{ width: "100%", height: "100%" }}>
-          <AlgorithmPanel />
+          <AlgorithmPanel algorithm={algorithm} />
         </div>
       </div>
     );
