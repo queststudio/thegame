@@ -1,8 +1,8 @@
-import { ALGORITHM_PANEL } from '../actions';
+import actions from '../actions';
 
 export default (state = {}, action) => {
   switch (action.type) {
-    case ALGORITHM_PANEL.DRAG_NODE_START:
+    case actions.ALGORITHM_PANEL.DRAG_NODE_START:
       return {
         ...state,
         drag_node: action.payload
