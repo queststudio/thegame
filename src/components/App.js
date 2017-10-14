@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Counter from './Counter';
 import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import { getAlgorithm } from '../algorithm';
@@ -12,9 +11,12 @@ class App extends React.Component {
     return (
       <div className="app">
         <div className="algorithm-panel-wrapper">
-          <AlgorithmPanel algorithm={algorithm} />
+          <AlgorithmPanel
+            algorithm={algorithm}
+            onNodeDrop={this.props.dropNode}
+          />
         </div>
-        <Nodes onNodeDragStart={this.props.startDraggingNode} />
+        <Nodes onNodeDrag={this.props.dragNode} />
       </div>
     );
   }
@@ -33,8 +35,12 @@ const mapDispatchToProps = {
   decrement: () => ({
     type: 'DECREMENT'
   }),
-  startDraggingNode: payload => ({
-    type: actions.ALGORITHM_PANEL.DRAG_NODE_START,
+  dragNode: payload => ({
+    type: actions.ALGORITHM_PANEL.DRAG_NODE,
+    payload
+  }),
+  dropNode: payload => ({
+    type: actions.ALGORITHM_PANEL.DROP_NODE,
     payload
   })
 };

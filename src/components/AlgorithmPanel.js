@@ -1,9 +1,21 @@
 import React, { PropTypes } from 'react';
 import { DiagramWidget } from 'storm-react-diagrams';
 import './src.css';
-import { getAlgorithm } from '../algorithm';
 
 class AlgorithmPanel extends React.Component {
+  constructor(props) {
+    super(props);
+    this.onNodeDrop = this.onNodeDrop.bind(this);
+  }
+  onNodeDrop(event) {
+    const { algorithm } = this.props;
+    const dropPoint = algorithm.getDiagramEngine().getRelativeMousePoint(event);
+    this.props.onNodeDrop({
+      x: dropPoint.x,
+      y: dropPoint.y
+    });
+  }
+
   render() {
     const { algorithm } = this.props;
     return (
@@ -13,8 +25,14 @@ class AlgorithmPanel extends React.Component {
           height: 600 + 'px',
           border: '1px solid red'
         }}
+        onDrop={this.onNodeDrop}
+        onDragOver={event => {
+          event.preventDefault();
+        }}
       >
-        <DiagramWidget diagramEngine={algorithm.getDiagramEngine()} />
+        <DiagramWidget
+          diagramEngine={algorithm.getDiagramEngine()}
+        />
       </div>
     );
   }
