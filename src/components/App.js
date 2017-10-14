@@ -4,6 +4,7 @@ import Counter from './Counter';
 import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import { getAlgorithm } from '../algorithm';
+import actions from '../actions';
 
 class App extends React.Component {
   render() {
@@ -32,8 +33,9 @@ const mapDispatchToProps = {
   decrement: () => ({
     type: 'DECREMENT'
   }),
-  startDraggingNode: () => ({
-    type: 'DRAG_NODE_START'
+  startDraggingNode: payload => ({
+    type: actions.ALGORITHM_PANEL.DRAG_NODE_START,
+    payload
   })
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);
