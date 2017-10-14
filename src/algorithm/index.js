@@ -1,7 +1,6 @@
-import * as SRD from "storm-react-diagrams";
+import * as SRD from 'storm-react-diagrams';
 
 export class Algorithm {
-
   constructor() {
     console.log('CREATING ALGORITHM!!!');
 
@@ -17,19 +16,26 @@ export class Algorithm {
     this.activeModel = new SRD.DiagramModel();
     this.diagramEngine.setDiagramModel(this.activeModel);
 
-    var node1 = new SRD.DefaultNodeModel("Node 1", "rgb(0,192,255)");
-    var port1 = node1.addPort(new SRD.DefaultPortModel(false, "out-1", "Out"));
-    node1.x = 100;
-    node1.y = 100;
+    const inputs = ['Вход 1', 'Вход 2', 'Вход 3'];
+    const inputNodes = inputs.map((input, index) => {
+      const node = new SRD.DefaultNodeModel(input, 'rgb(0,192,255)');
+      node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'));
+      node.x = 100;
+      node.y = 100 + index * 50;
+      return node;
+    });
 
-    var node2 = new SRD.DefaultNodeModel("Node 2", "rgb(192,255,0)");
-    var port2 = node2.addPort(new SRD.DefaultPortModel(true, "in-1", "IN"));
-    node2.x = 400;
-    node2.y = 100;
+    const outputs = ['Выход 1', 'Выход 2'];
+    const outputNodes = outputs.map((output, index) => {
+      const node = new SRD.DefaultNodeModel(output, 'rgb(0,192,255)');
+      node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
+      node.x = 400;
+      node.y = 100 + index * 50;
+      return node;
+    });
 
-
-    this.activeModel.addNode(node1);
-    this.activeModel.addNode(node2);
+    inputNodes.forEach(i => this.activeModel.addNode(i));
+    outputNodes.forEach(o => this.activeModel.addNode(o));
   }
 
   getActiveDiagram() {
@@ -44,9 +50,8 @@ export class Algorithm {
 let instance;
 
 const getAlgorithm = () => {
-  if(!instance)
-    instance = new Algorithm();
+  if (!instance) instance = new Algorithm();
   return instance;
-}
+};
 
-export {getAlgorithm};
+export { getAlgorithm };
