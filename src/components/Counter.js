@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react";
+import React, { Component, PropTypes } from 'react';
 
 class Counter extends Component {
   incrementIfOdd = () => {
@@ -15,9 +15,9 @@ class Counter extends Component {
     const { value, onIncrement, onDecrement } = this.props;
     return (
       <p>
-        Clicked: {value} times <button onClick={onIncrement}>+</button>{" "}
-        <button onClick={onDecrement}>-</button>{" "}
-        <button onClick={this.incrementIfOdd}>Increment if odd</button>{" "}
+        Clicked: {value} times <button onClick={onIncrement}>+</button>{' '}
+        <button onClick={onDecrement}>-</button>{' '}
+        <button onClick={this.incrementIfOdd}>Increment if odd</button>{' '}
         <button onClick={this.incrementAsync}>Increment async</button>
       </p>
     );
