@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import Counter from './Counter';
+import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import { getAlgorithm } from '../algorithm';
 
@@ -8,15 +9,11 @@ class App extends React.Component {
   render() {
     const algorithm = getAlgorithm();
     return (
-      <div>
-        <Counter
-          value={this.props.value}
-          onIncrement={this.props.increment}
-          onDecrement={this.props.decrement}
-        />
-        <div style={{ width: '100%', height: '100%' }}>
+      <div className="app">
+        <div className="algorithm-panel-wrapper">
           <AlgorithmPanel algorithm={algorithm} />
         </div>
+        <Nodes onNodeDragStart={this.props.startDraggingNode} />
       </div>
     );
   }
@@ -34,6 +31,9 @@ const mapDispatchToProps = {
   }),
   decrement: () => ({
     type: 'DECREMENT'
+  }),
+  startDraggingNode: () => ({
+    type: 'DRAG_NODE_START'
   })
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

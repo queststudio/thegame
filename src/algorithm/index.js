@@ -29,7 +29,7 @@ export class Algorithm {
     const outputNodes = outputs.map((output, index) => {
       const node = new SRD.DefaultNodeModel(output, 'rgb(0,192,255)');
       node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
-      node.x = 400;
+      node.x = 600;
       node.y = 100 + index * 50;
       return node;
     });
