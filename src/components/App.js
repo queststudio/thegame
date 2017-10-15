@@ -36,12 +36,6 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  increment: () => ({
-    type: 'INCREMENT'
-  }),
-  decrement: () => ({
-    type: 'DECREMENT'
-  }),
   dragNode: payload => ({
     type: actions.ALGORITHM_PANEL.DRAG_NODE,
     payload
