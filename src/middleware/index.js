@@ -2,7 +2,7 @@ import algorithmPanelMiddleware from './algorithm-panel';
 
 const loggingMiddleware = ({ dispatch, getState }) => {
   return next => action => {
-    console.log('will dispatch', action);
+    console.log(action);
     return next(action);
   };
 };

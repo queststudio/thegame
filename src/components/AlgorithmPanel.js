@@ -23,7 +23,7 @@ class AlgorithmPanel extends React.Component {
     });
   }
   componentDidMount() {
-    const { selectNode, abandonNode } = this.props;
+    const { selectNode, abandonNode, createNode } = this.props;
     const algorithm = getAlgorithm();
 
     this.setState({
@@ -32,7 +32,7 @@ class AlgorithmPanel extends React.Component {
     });
 
     algorithm.onNodeCreated = node => {
-      console.log('i was born', node);
+      createNode(node);
     };
 
     algorithm.onSelectionChanged = (node, isSelected) => {
@@ -58,9 +58,11 @@ class AlgorithmPanel extends React.Component {
           event.preventDefault();
         }}
       >
-        {algorithm
-          ? <DiagramWidget diagramEngine={algorithm.getDiagramEngine()} />
-          : <Loading />}
+        {algorithm ? (
+          <DiagramWidget diagramEngine={algorithm.getDiagramEngine()} />
+        ) : (
+          <Loading />
+        )}
       </div>
     );
   }
@@ -79,11 +81,15 @@ const mapDispatchToProps = {
   }),
   selectNode: payload => ({
     type: actions.ALGORITHM_PANEL.SELECT_NODE,
-    payload: payload
+    payload
   }),
   abandonNode: payload => ({
     type: actions.ALGORITHM_PANEL.ABANDON_NODE,
-    payload: payload
+    payload
+  }),
+  createNode: payload => ({
+    type: actions.ALGORITHM_PANEL.CREATE_NODE,
+    payload
   })
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AlgorithmPanel);

@@ -76,10 +76,13 @@ export class Algorithm {
 
   _addNode(node, meta) {
     const result = this.activeModel.addNode(node);
+
     this.nodes[result.id] = {
       ...meta,
       id: result.id
     };
+
+    if (this.onNodeCreated) this.onNodeCreated(this.nodes[result.id]);
 
     return result;
   }

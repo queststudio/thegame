@@ -1,26 +1,29 @@
 import React from 'react';
 import CONSTANTS from '../constants';
 
-const Node = props =>
+const Node = props => (
   <div
     className="nodes-menu-item"
     draggable={true}
     onDragStart={() => props.onDrag({ ...props })}
   >
     {props.label}
-  </div>;
+  </div>
+);
 
 class Nodes extends React.Component {
   render() {
     const elements = [
-      { type: CONSTANTS.NODE_TYPES.FORMULA, label: 'формула' }
+      {
+        operation: CONSTANTS.OPERATIONS.DIV,
+        parameterValue: 0,
+        secondOperand: CONSTANTS.ARGUMENTS.CONSTANT,
+        type: CONSTANTS.NODES.FORMULA,
+        label: 'формула'
+      }
     ].map(e => <Node {...e} onDrag={this.props.onNodeDrag} />);
 
-    return (
-      <div className="nodes-menu">
-        {elements}
-      </div>
-    );
+    return <div className="nodes-menu">{elements}</div>;
   }
 }
 

@@ -14,7 +14,10 @@ class App extends React.Component {
         </div>
         <div className="tray">
           <Nodes onNodeDrag={this.props.dragNode} />
-          <Options node={this.props.activeNode} />
+          <Options
+            node={this.props.activeNode}
+            onNodeChanged={this.props.changeNode}
+          />
         </div>
       </div>
     );
@@ -30,6 +33,10 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
   dragNode: payload => ({
     type: actions.ALGORITHM_PANEL.DRAG_NODE,
+    payload
+  }),
+  changeNode: payload => ({
+    type: actions.ALGORITHM_PANEL.CHANGE_NODE,
     payload
   })
 };
