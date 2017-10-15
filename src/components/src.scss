@@ -159,21 +159,25 @@
 		}
 	}
 
-	.nodes-menu{
+	.tray{
 		float: left;
 		min-width: 200px;
 		flex-grow: 0;
 		flex-shrink: 0;
+		padding: 10px;
 
-		.nodes-menu-item{
-			font-family: Helvetica, Arial;
-			padding: 5px;
-			margin: 0px 10px;
-			border: solid 1px;
-			border-radius: 5px;
-			border-color: purple;
-			margin-bottom: 2px;
-			cursor: pointer;
+		.nodes-menu{
+			.nodes-menu-item{
+				font-family: Helvetica, Arial;
+				padding: 5px;
+				margin: 0px 10px;
+				border: solid 1px;
+				border-radius: 5px;
+				border-color: purple;
+				margin-bottom: 2px;
+				cursor: pointer;
+			}
 		}
+
 	}
 }}

@@ -5,7 +5,18 @@ export default (state = {}, action) => {
     case actions.ALGORITHM_PANEL.DRAG_NODE:
       return {
         ...state,
-        drag_node: action.payload
+        dragNode: action.payload
+      };
+      break;
+    case actions.ALGORITHM_PANEL.DROP_NODE:
+      return {
+        ...state,
+        refresher: Math.random()
+      };
+    case actions.ALGORITHM_PANEL.SELECT_NODE:
+      return {
+        ...state,
+        activeNode: action.payload
       };
     default:
       return state;

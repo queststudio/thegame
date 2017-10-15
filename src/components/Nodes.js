@@ -5,7 +5,7 @@ const Node = props =>
   <div
     className="nodes-menu-item"
     draggable={true}
-    onDragStart={()=>props.onDrag({...props})}
+    onDragStart={() => props.onDrag({ ...props })}
   >
     {props.label}
   </div>;

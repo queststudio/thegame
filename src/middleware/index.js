@@ -7,7 +7,4 @@ const loggingMiddleware = ({ dispatch, getState }) => {
   };
 };
 
-export default [
-  loggingMiddleware,
-  algorithmPanelMiddleware
-];
+export default [loggingMiddleware, algorithmPanelMiddleware];

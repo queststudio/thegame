@@ -4,6 +4,7 @@ import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import { getAlgorithm } from '../algorithm';
 import actions from '../actions';
+import Options from './Options';
 
 class App extends React.Component {
   render() {
@@ -12,11 +13,17 @@ class App extends React.Component {
       <div className="app">
         <div className="algorithm-panel-wrapper">
           <AlgorithmPanel
+            refresher={this.props.algorithmPanel.refresher}
             algorithm={algorithm}
             onNodeDrop={this.props.dropNode}
+            onNodeSelect={this.props.selectNode}
+            onNodeAbandon={this.props.abandonNode}
           />
         </div>
-        <Nodes onNodeDrag={this.props.dragNode} />
+        <div className="tray">
+          <Nodes onNodeDrag={this.props.dragNode} />
+          <Options node={this.props.algorithmPanel.activeNode} />
+        </div>
       </div>
     );
   }
@@ -24,7 +31,7 @@ class App extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    value: state.value
+    algorithmPanel: state.algorithmPanel
   };
 };
 
@@ -42,6 +49,14 @@ const mapDispatchToProps = {
   dropNode: payload => ({
     type: actions.ALGORITHM_PANEL.DROP_NODE,
     payload
+  }),
+  selectNode: payload => ({
+    type: actions.ALGORITHM_PANEL.SELECT_NODE,
+    payload: payload
+  }),
+  abandonNode: payload => ({
+    type: actions.ALGORITHM_PANEL.ABANDON_NODE,
+    payload: payload
   })
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

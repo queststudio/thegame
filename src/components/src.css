@@ -110,12 +110,13 @@
             #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port .name {
               justify-content: flex-end;
               text-align: right; }
-  #root .app .nodes-menu {
+  #root .app .tray {
     float: left;
     min-width: 200px;
     flex-grow: 0;
-    flex-shrink: 0; }
-    #root .app .nodes-menu .nodes-menu-item {
+    flex-shrink: 0;
+    padding: 10px; }
+    #root .app .tray .nodes-menu .nodes-menu-item {
       font-family: Helvetica, Arial;
       padding: 5px;
       margin: 0px 10px;

@@ -8,7 +8,7 @@ const algorithmPanelMiddleware = ({ dispatch, getState }) => {
         const algorithm = getAlgorithm();
         algorithm.addNode({
           ...action.payload,
-          ...getState().algorithmPanel.drag_node
+          ...getState().algorithmPanel.dragNode
         });
         break;
     }
