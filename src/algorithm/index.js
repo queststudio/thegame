@@ -1,12 +1,13 @@
 import * as SRD from 'storm-react-diagrams';
 
-//ToDo Consider some big refactoring around this class
+//ToDo Consider some big refactoring decoupling business logic from presentation
 export class Algorithm {
   constructor() {
     console.log('CREATING ALGORITHM!!!');
 
     this.selectionChanged = this.selectionChanged.bind(this);
 
+    this.initialized = false;
     this.inputs = ['Вход 1', 'Вход 2', 'Вход 3'];
     this.outputs = ['Выход 1', 'Выход 2'];
     this.formulas = [];
@@ -16,8 +17,6 @@ export class Algorithm {
 
     this.diagramEngine.registerNodeFactory(new SRD.DefaultNodeFactory());
     this.diagramEngine.registerLinkFactory(new SRD.DefaultLinkFactory());
-
-    this.initModel();
   }
 
   selectionChanged(item, isSelected) {
@@ -27,7 +26,10 @@ export class Algorithm {
     }
   }
 
-  initModel() {
+  initialize() {
+    if (this.initialized) return;
+    else this.initialized = true;
+
     this.activeModel = new SRD.DiagramModel();
     this.diagramEngine.setDiagramModel(this.activeModel);
 

@@ -1,31 +1,51 @@
 import React, { PropTypes } from 'react';
 import { DiagramWidget } from 'storm-react-diagrams';
 import './src.css';
+import { getAlgorithm } from '../algorithm';
+import actions from '../actions';
+import { connect } from 'react-redux';
 
-//ToDo evolve to container
+const Loading = () => <div>Загружаю</div>;
+
 class AlgorithmPanel extends React.Component {
   constructor(props) {
     super(props);
+    this.state = {};
     this.onNodeDrop = this.onNodeDrop.bind(this);
   }
   onNodeDrop(event) {
-    const { algorithm } = this.props;
+    const { algorithm } = this.state;
+    const { dropNode } = this.props;
     const dropPoint = algorithm.getDiagramEngine().getRelativeMousePoint(event);
-    this.props.onNodeDrop({
+    dropNode({
       x: dropPoint.x,
       y: dropPoint.y
     });
   }
   componentDidMount() {
-    const { algorithm, onNodeSelect, onNodeAbandon } = this.props;
-    algorithm.onSelectionChanged = (node, isSelected) => {
-      if (isSelected) onNodeSelect(node);
-      else onNodeAbandon(node);
+    const { selectNode, abandonNode } = this.props;
+    const algorithm = getAlgorithm();
+
+    this.setState({
+      ...this.state,
+      algorithm
+    });
+
+    algorithm.onNodeCreated = node => {
+      console.log('i was born', node);
     };
+
+    algorithm.onSelectionChanged = (node, isSelected) => {
+      if (isSelected) selectNode(node);
+      else abandonNode(node);
+    };
+
+    algorithm.initialize();
   }
 
   render() {
-    const { algorithm } = this.props;
+    const { algorithm } = this.state;
+
     return (
       <div
         style={{
@@ -38,10 +58,32 @@ class AlgorithmPanel extends React.Component {
           event.preventDefault();
         }}
       >
-        <DiagramWidget diagramEngine={algorithm.getDiagramEngine()} />
+        {algorithm
+          ? <DiagramWidget diagramEngine={algorithm.getDiagramEngine()} />
+          : <Loading />}
       </div>
     );
   }
 }
 
-export default AlgorithmPanel;
+const mapStateToProps = state => {
+  return {
+    algorithmPanel: state.algorithmPanel
+  };
+};
+
+const mapDispatchToProps = {
+  dropNode: payload => ({
+    type: actions.ALGORITHM_PANEL.DROP_NODE,
+    payload
+  }),
+  selectNode: payload => ({
+    type: actions.ALGORITHM_PANEL.SELECT_NODE,
+    payload: payload
+  }),
+  abandonNode: payload => ({
+    type: actions.ALGORITHM_PANEL.ABANDON_NODE,
+    payload: payload
+  })
+};
+export default connect(mapStateToProps, mapDispatchToProps)(AlgorithmPanel);
