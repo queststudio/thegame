@@ -101,12 +101,16 @@ class Formula extends React.Component {
             value={secondOperand}
           />
         </div>
-        <div>
-          <ParameterValue
-            onChanged={this.onChanged('parameterValue')}
-            value={parameterValue}
-          />
-        </div>
+        {secondOperand === CONSTANTS.ARGUMENTS.CONSTANT ? (
+          <div>
+            <ParameterValue
+              onChanged={this.onChanged('parameterValue')}
+              value={parameterValue}
+            />
+          </div>
+        ) : (
+          ''
+        )}
       </div>
     );
   }
