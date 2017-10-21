@@ -18,7 +18,7 @@ class Operations extends React.Component {
 
   render() {
     const operations = Object.keys(CONSTANTS.OPERATIONS).map(
-      key => CONSTANTS.OPERATIONS[key]
+      key => CONSTANTS.OPERATIONS[key],
     );
 
     return (
@@ -53,6 +53,11 @@ class ParameterValue extends React.Component {
   constructor(props) {
     super(props);
     this.onChanged = this.onChanged.bind(this);
+    this.onKeyUp = this.onKeyUp.bind(this);
+  }
+
+  onKeyUp(e) {
+    if (e.keyCode === 8 || e.keyCode === 46) e.stopPropagation();
   }
 
   onChanged(e) {
@@ -65,6 +70,7 @@ class ParameterValue extends React.Component {
         placeholder="Значение"
         onChange={this.onChanged}
         value={this.props.value}
+        onKeyUp={this.onKeyUp}
       />
     );
   }
@@ -78,7 +84,7 @@ class Formula extends React.Component {
   onChanged = field => value => {
     this.props.onChanged({
       ...this.props.node,
-      [field]: value
+      [field]: value,
     });
   };
 
