@@ -18,6 +18,11 @@ export default (state = {}, action) => {
         ...state,
         activeNode: action.payload
       };
+    case actions.ALGORITHM_PANEL.CHANGE_NODE:
+      return {
+        ...state,
+        activeNode: action.payload
+      };
     default:
       return state;
   }
