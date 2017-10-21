@@ -1,16 +1,17 @@
 import * as SRD from 'storm-react-diagrams';
+import CONSTANTS from '../constants';
 
 //ToDo Consider some big refactoring decoupling business logic from presentation
 export class Algorithm {
   constructor() {
-    console.log('CREATING ALGORITHM!!!');
+    console.log('CREATING ALGORITHM!!!');//ToDo throw an ex
 
     this.selectionChanged = this.selectionChanged.bind(this);
+    this.addNode = this.addNode.bind(this);
 
     this.initialized = false;
     this.inputs = ['Вход 1', 'Вход 2', 'Вход 3'];
     this.outputs = ['Выход 1', 'Выход 2'];
-    this.formulas = [];
     this.nodes = {};
 
     this.diagramEngine = new SRD.DiagramEngine();
@@ -36,7 +37,7 @@ export class Algorithm {
     const inputNodes = this.inputs.map((input, index) => {
       const node = new SRD.DefaultNodeModel(input, 'rgb(0,192,255)');
       node.addListener({
-        selectionChanged: this.selectionChanged
+        selectionChanged: this.selectionChanged,
       });
       node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'));
       node.x = 100;
@@ -47,7 +48,7 @@ export class Algorithm {
     const outputNodes = this.outputs.map((output, index) => {
       const node = new SRD.DefaultNodeModel(output, 'rgb(0,192,255)');
       node.addListener({
-        selectionChanged: this.selectionChanged
+        selectionChanged: this.selectionChanged,
       });
       node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
       node.x = 600;
@@ -60,9 +61,21 @@ export class Algorithm {
   }
 
   addNode(meta) {
+    if (this.nodeProducers[meta.type]) {
+      let node = this.nodeProducers[meta.type](meta);
+      this._addNode(node, meta);
+    }
+  }
+
+  nodeProducers = {
+    [CONSTANTS.NODES.FORMULA]: this.produceFormula.bind(this),
+    [CONSTANTS.NODES.CONDITION]: this.produceCondition.bind(this),
+  };
+
+  produceFormula(meta) {
     const node = new SRD.DefaultNodeModel(meta.label, 'purple');
     node.addListener({
-      selectionChanged: this.selectionChanged
+      selectionChanged: this.selectionChanged,
     });
     node.addPort(new SRD.DefaultPortModel(true, `in-A`, 'A'));
     node.addPort(new SRD.DefaultPortModel(true, `in-B`, 'B'));
@@ -70,16 +83,28 @@ export class Algorithm {
     node.x = meta.x;
     node.y = meta.y;
 
-    this.formulas.push(meta);
-    this._addNode(node, meta);
+    return node;
+  }
+
+  produceCondition(meta) {
+    const node = new SRD.DefaultNodeModel(meta.label, 'green');
+    node.addListener({
+      selectionChanged: this.selectionChanged,
+    });
+    node.addPort(new SRD.DefaultPortModel(true, `in`, 'вход'));
+    node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'истинно'));
+    node.addPort(new SRD.DefaultPortModel(false, `out-2`, 'ложно'));
+    node.x = meta.x;
+    node.y = meta.y;
+
+    return node;
   }
 
   _addNode(node, meta) {
     const result = this.activeModel.addNode(node);
-
     this.nodes[result.id] = {
       ...meta,
-      id: result.id
+      id: result.id,
     };
 
     if (this.onNodeCreated) this.onNodeCreated(this.nodes[result.id]);

@@ -173,9 +173,14 @@
 				margin: 0px 10px;
 				border: solid 1px;
 				border-radius: 5px;
-				border-color: purple;
 				margin-bottom: 2px;
 				cursor: pointer;
+			}
+			.formula{
+				border-color: purple;
+			}
+			.condition{
+				border-color: green;
 			}
 		}
 

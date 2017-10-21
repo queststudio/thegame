@@ -19,7 +19,7 @@ class AlgorithmPanel extends React.Component {
     const dropPoint = algorithm.getDiagramEngine().getRelativeMousePoint(event);
     dropNode({
       x: dropPoint.x,
-      y: dropPoint.y
+      y: dropPoint.y,
     });
   }
   componentDidMount() {
@@ -28,7 +28,7 @@ class AlgorithmPanel extends React.Component {
 
     this.setState({
       ...this.state,
-      algorithm
+      algorithm,
     });
 
     algorithm.onNodeCreated = node => {
@@ -51,7 +51,7 @@ class AlgorithmPanel extends React.Component {
         style={{
           width: 800 + 'px',
           height: 600 + 'px',
-          border: '1px solid red'
+          border: '1px solid red',
         }}
         onDrop={this.onNodeDrop}
         onDragOver={event => {
@@ -70,26 +70,26 @@ class AlgorithmPanel extends React.Component {
 
 const mapStateToProps = state => {
   return {
-    algorithmPanel: state.algorithmPanel
+    algorithmPanel: state.algorithmPanel,
   };
 };
 
 const mapDispatchToProps = {
   dropNode: payload => ({
     type: actions.ALGORITHM_PANEL.DROP_NODE,
-    payload
+    payload,
   }),
   selectNode: payload => ({
     type: actions.ALGORITHM_PANEL.SELECT_NODE,
-    payload
+    payload,
   }),
   abandonNode: payload => ({
     type: actions.ALGORITHM_PANEL.ABANDON_NODE,
-    payload
+    payload,
   }),
   createNode: payload => ({
     type: actions.ALGORITHM_PANEL.CREATE_NODE,
-    payload
-  })
+    payload,
+  }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(AlgorithmPanel);

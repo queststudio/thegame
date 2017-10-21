@@ -1,10 +1,6 @@
 import React from 'react';
-import CONSTANTS from '../constants';
-
-//ToDo break into smaller files
-
-const Nothing = () => <div />;
-const NoOptions = () => <div>Настройка не доступна</div>;
+import CONSTANTS from '../../constants';
+import ParameterValue from './ParameterValue';
 
 class Operations extends React.Component {
   constructor(props) {
@@ -17,8 +13,8 @@ class Operations extends React.Component {
   }
 
   render() {
-    const operations = Object.keys(CONSTANTS.OPERATIONS).map(
-      key => CONSTANTS.OPERATIONS[key],
+    const operations = Object.keys(CONSTANTS.OPERATORS).map(
+      key => CONSTANTS.OPERATORS[key],
     );
 
     return (
@@ -45,33 +41,6 @@ class Argument extends React.Component {
         <option value={CONSTANTS.ARGUMENTS.PARAMETER}>вход</option>
         <option value={CONSTANTS.ARGUMENTS.CONSTANT}>константа</option>
       </select>
-    );
-  }
-}
-
-class ParameterValue extends React.Component {
-  constructor(props) {
-    super(props);
-    this.onChanged = this.onChanged.bind(this);
-    this.onKeyUp = this.onKeyUp.bind(this);
-  }
-
-  onKeyUp(e) {
-    if (e.keyCode === 8 || e.keyCode === 46) e.stopPropagation();
-  }
-
-  onChanged(e) {
-    this.props.onChanged(e.target.value);
-  }
-
-  render() {
-    return (
-      <input
-        placeholder="Значение"
-        onChange={this.onChanged}
-        value={this.props.value}
-        onKeyUp={this.onKeyUp}
-      />
     );
   }
 }
@@ -122,20 +91,4 @@ class Formula extends React.Component {
   }
 }
 
-class Options extends React.Component {
-  render() {
-    const { node, onNodeChanged } = this.props;
-
-    if (!node) return <Nothing />;
-
-    switch (node.type) {
-      case CONSTANTS.NODES.FORMULA:
-        return <Formula node={node} onChanged={onNodeChanged} />;
-        break;
-      default:
-        return <NoOptions />;
-    }
-  }
-}
-
-export default Options;
+export default Formula;

@@ -2,16 +2,25 @@ export default {
   NODES: {
     INPUT: 'input',
     OUTPUT: 'output',
-    FORMULA: 'formula'
+    FORMULA: 'formula',
+    CONDITION: 'condition',
   },
-  OPERATIONS: {
+  OPERATORS: {
     SUM: '+',
     SUB: '-',
     MUL: '*',
-    DIV: '/'
+    DIV: '/',
   },
   ARGUMENTS: {
     PARAMETER: 'parameter',
-    CONSTANT: 'constant'
+    CONSTANT: 'constant',
+  },
+  COMPARISON_OPERATORS:{
+    GREATER: '>',
+    LESS: '<',
+    GREQUAL: '>=',
+    LEEQUAL: '<=',
+    EQUAL: '==',
+    UNEQUAL: '!=',
   }
 };

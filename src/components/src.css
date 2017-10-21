@@ -122,6 +122,9 @@
       margin: 0px 10px;
       border: solid 1px;
       border-radius: 5px;
-      border-color: purple;
       margin-bottom: 2px;
       cursor: pointer; }
+    #root .app .tray .nodes-menu .formula {
+      border-color: purple; }
+    #root .app .tray .nodes-menu .condition {
+      border-color: green; }
