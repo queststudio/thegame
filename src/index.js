@@ -24,3 +24,23 @@ const render = () => {
 };
 render();
 store.subscribe(render);
+
+
+
+/*ToDo temporary here
++ delete node case
++ update node labels
++ update node links
+
++ get algorithm
++ execute algorithm
++ send state to the server
++ calculate inputs for the next cycle
+
++ show inputs
++ show outputs
++ show formulas
++ show conditions
++ show pending
+
+*/
