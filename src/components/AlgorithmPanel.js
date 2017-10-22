@@ -23,7 +23,7 @@ class AlgorithmPanel extends React.Component {
     });
   }
   componentDidMount() {
-    const { selectNode, abandonNode, createNode } = this.props;
+    const { selectNode, abandonNode, createNode, removeNode } = this.props;
     const algorithm = getAlgorithm();
 
     this.setState({
@@ -33,6 +33,9 @@ class AlgorithmPanel extends React.Component {
 
     algorithm.onNodeCreated = node => {
       createNode(node);
+    };
+    algorithm.onNodeRemoved = node => {
+      removeNode(node);
     };
 
     algorithm.onSelectionChanged = (node, isSelected) => {
@@ -89,6 +92,10 @@ const mapDispatchToProps = {
   }),
   createNode: payload => ({
     type: actions.NODES.CREATE_NODE,
+    payload,
+  }),
+  removeNode: payload => ({
+    type: actions.NODES.REMOVE_NODE,
     payload,
   }),
 };

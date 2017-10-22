@@ -7,6 +7,7 @@ export class Algorithm {
     console.log('CREATING ALGORITHM!!!'); //ToDo throw an ex
 
     this.selectionChanged = this.selectionChanged.bind(this);
+    this.nodeRemoved = this.nodeRemoved.bind(this);
     this.addNode = this.addNode.bind(this);
     this.updateNode = this.updateNode.bind(this);
     this.getFormulaLabel = this.getFormulaLabel.bind(this);
@@ -37,6 +38,13 @@ export class Algorithm {
     }
   }
 
+  nodeRemoved(item) {
+    if (this.onNodeRemoved) {
+      const node = this.nodes[item.id];
+      this.onNodeRemoved(node);
+    }
+  }
+
   initialize() {
     if (this.initialized) return;
     else this.initialized = true;
@@ -48,6 +56,7 @@ export class Algorithm {
       const node = new SRD.DefaultNodeModel(input, 'rgb(0,192,255)');
       node.addListener({
         selectionChanged: this.selectionChanged,
+        entityRemoved: this.nodeRemoved,
       });
       node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'));
       node.x = 100;
@@ -59,6 +68,7 @@ export class Algorithm {
       const node = new SRD.DefaultNodeModel(output, 'rgb(0,192,255)');
       node.addListener({
         selectionChanged: this.selectionChanged,
+        entityRemoved: this.nodeRemoved,
       });
       node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
       node.x = 600;
@@ -125,6 +135,7 @@ export class Algorithm {
     const node = new SRD.DefaultNodeModel(this.getFormulaLabel(meta), 'purple');
     node.addListener({
       selectionChanged: this.selectionChanged,
+      entityRemoved: this.nodeRemoved,
     });
     node.addPort(new SRD.DefaultPortModel(true, `in-A`, 'A'));
     node.addPort(new SRD.DefaultPortModel(true, `in-B`, 'B'));
@@ -142,6 +153,7 @@ export class Algorithm {
     );
     node.addListener({
       selectionChanged: this.selectionChanged,
+      entityRemoved: this.nodeRemoved,
     });
     node.addPort(new SRD.DefaultPortModel(true, `in`, 'вход'));
     node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'истинно'));

@@ -28,7 +28,6 @@ store.subscribe(render);
 
 
 /*ToDo temporary here
-+ delete node case
 + update node links
 
 + get algorithm
