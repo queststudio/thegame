@@ -1,4 +1,5 @@
 import algorithmPanelMiddleware from './algorithm-panel';
+import stateMachineMiddleware from './state-machine';
 
 const loggingMiddleware = ({ dispatch, getState }) => {
   return next => action => {
@@ -7,4 +8,8 @@ const loggingMiddleware = ({ dispatch, getState }) => {
   };
 };
 
-export default [loggingMiddleware, algorithmPanelMiddleware];
+export default [
+  loggingMiddleware,
+  algorithmPanelMiddleware,
+  stateMachineMiddleware,
+];

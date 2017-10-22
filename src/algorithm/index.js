@@ -2,6 +2,7 @@ import * as SRD from 'storm-react-diagrams';
 import CONSTANTS from '../constants';
 
 //ToDo Consider some big refactoring decoupling business logic from presentation
+//ToDo Move nodes to separate classes
 export class Algorithm {
   constructor() {
     console.log('CREATING ALGORITHM!!!'); //ToDo throw an ex
@@ -106,6 +107,21 @@ export class Algorithm {
 
   updateFormula(item, meta) {
     item.name = this.getFormulaLabel(meta);
+
+    if (meta.secondOperand === CONSTANTS.ARGUMENTS.CONSTANT) {
+      if (item.ports[`in-B`]) {
+        const diagram = this.getActiveDiagram();
+        const links = Object
+          .keys(item.ports['in-B'].links)
+          .map(key=>item.ports['in-B'].links[key]);
+        links.forEach(x => diagram.removeLink(x));
+        item.removePort(item.ports[`in-B`]);
+      }
+    } else {
+      if (!item.ports[`in-B`]) {
+        item.addPort(new SRD.DefaultPortModel(true, `in-B`, 'B'));
+      }
+    }
   }
 
   getFormulaLabel(meta) {

@@ -28,8 +28,6 @@ store.subscribe(render);
 
 
 /*ToDo temporary here
-+ update node links
-
 + get algorithm
 + execute algorithm
 + send state to the server
@@ -40,5 +38,7 @@ store.subscribe(render);
 + show formulas
 + show conditions
 + show pending
+
++ make inactive while execute
 
 */
