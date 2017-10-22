@@ -9,4 +9,7 @@ export default {
     CREATE_NODE: 'CREATE_NODE',
     CHANGE_NODE: 'CHANGE_NODE',
   },
+  MESSAGES: {
+    CREATE_MESSAGE: 'CREATE_MESSAGE',
+  },
 };

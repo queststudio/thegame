@@ -184,5 +184,15 @@
 			}
 		}
 
+		.messages{
+			border: solid 1px;
+			border-radius: 5px;
+			margin-bottom: 2px;
+			height: 500px;
+			width: 200px;
+			overflow: scroll;
+
+		}
+
 	}
 }}
