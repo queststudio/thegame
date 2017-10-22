@@ -4,14 +4,21 @@ import CONSTANTS from '../constants';
 //ToDo Consider some big refactoring decoupling business logic from presentation
 export class Algorithm {
   constructor() {
-    console.log('CREATING ALGORITHM!!!');//ToDo throw an ex
+    console.log('CREATING ALGORITHM!!!'); //ToDo throw an ex
 
     this.selectionChanged = this.selectionChanged.bind(this);
     this.addNode = this.addNode.bind(this);
 
     this.initialized = false;
-    this.inputs = ['Вход 1', 'Вход 2', 'Вход 3'];
-    this.outputs = ['Выход 1', 'Выход 2'];
+    this.inputs = ['Манометр 1', 'Манометр 2', 'Манометр 3'];
+    this.outputs = [
+      'Вентиль 1',
+      'Вентиль 2',
+      'Вентиль 3',
+      'Вентиль 4',
+      'Вентиль 5',
+      'Вентиль 6',
+    ];
     this.nodes = {};
 
     this.diagramEngine = new SRD.DiagramEngine();
@@ -41,7 +48,7 @@ export class Algorithm {
       });
       node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'));
       node.x = 100;
-      node.y = 100 + index * 50;
+      node.y = 100 + index * 150;
       return node;
     });
 
@@ -52,7 +59,7 @@ export class Algorithm {
       });
       node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
       node.x = 600;
-      node.y = 100 + index * 50;
+      node.y = 30 + index * 100;
       return node;
     });
 
