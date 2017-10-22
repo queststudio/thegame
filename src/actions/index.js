@@ -4,7 +4,9 @@ export default {
     DROP_NODE: 'DROP_NODE',
     SELECT_NODE: 'SELECT_NODE',
     ABANDON_NODE: 'ABANDON_NODE',
+  },
+  NODES: {
     CREATE_NODE: 'CREATE_NODE',
-    CHANGE_NODE: 'CHANGE_NODE'
-  }
+    CHANGE_NODE: 'CHANGE_NODE',
+  },
 };

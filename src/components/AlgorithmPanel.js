@@ -88,7 +88,7 @@ const mapDispatchToProps = {
     payload,
   }),
   createNode: payload => ({
-    type: actions.ALGORITHM_PANEL.CREATE_NODE,
+    type: actions.NODES.CREATE_NODE,
     payload,
   }),
 };

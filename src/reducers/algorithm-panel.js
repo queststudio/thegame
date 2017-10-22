@@ -16,12 +16,7 @@ export default (state = {}, action) => {
     case actions.ALGORITHM_PANEL.SELECT_NODE:
       return {
         ...state,
-        activeNode: action.payload
-      };
-    case actions.ALGORITHM_PANEL.CHANGE_NODE:
-      return {
-        ...state,
-        activeNode: action.payload
+        activeNodeId: action.payload.id
       };
     default:
       return state;
