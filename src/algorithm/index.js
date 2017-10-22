@@ -8,6 +8,9 @@ export class Algorithm {
 
     this.selectionChanged = this.selectionChanged.bind(this);
     this.addNode = this.addNode.bind(this);
+    this.updateNode = this.updateNode.bind(this);
+    this.getFormulaLabel = this.getFormulaLabel.bind(this);
+    this.getConditionLabel = this.getConditionLabel.bind(this);
 
     this.initialized = false;
     this.inputs = ['Манометр 1', 'Манометр 2', 'Манометр 3'];
@@ -74,13 +77,52 @@ export class Algorithm {
     }
   }
 
+  updateNode(meta) {
+    if (this.nodeUpdaters[meta.type]) {
+      let node = this.getActiveDiagram().getNode(meta.id);
+      this.nodeUpdaters[meta.type](node, meta);
+    }
+  }
+
   nodeProducers = {
     [CONSTANTS.NODES.FORMULA]: this.produceFormula.bind(this),
     [CONSTANTS.NODES.CONDITION]: this.produceCondition.bind(this),
   };
 
+  nodeUpdaters = {
+    [CONSTANTS.NODES.FORMULA]: this.updateFormula.bind(this),
+    [CONSTANTS.NODES.CONDITION]: this.updateCondition.bind(this),
+  };
+
+  updateFormula(item, meta) {
+    item.name = this.getFormulaLabel(meta);
+  }
+
+  getFormulaLabel(meta) {
+    const parameterValue = meta.parameterValue
+      ? meta.parameterValue
+      : 'не задано';
+    const secondOperand =
+      meta.secondOperand === CONSTANTS.ARGUMENTS.CONSTANT
+        ? parameterValue
+        : 'B';
+
+    return `A ${meta.operation} ${secondOperand}`;
+  }
+
+  updateCondition(item, meta) {
+    item.name = this.getConditionLabel(meta);
+  }
+
+  getConditionLabel(meta) {
+    const comparisonValue = meta.comparisonValue
+      ? meta.comparisonValue
+      : 'не задано';
+    return `вход ${meta.operation} ${comparisonValue}`;
+  }
+
   produceFormula(meta) {
-    const node = new SRD.DefaultNodeModel(meta.label, 'purple');
+    const node = new SRD.DefaultNodeModel(this.getFormulaLabel(meta), 'purple');
     node.addListener({
       selectionChanged: this.selectionChanged,
     });
@@ -94,7 +136,10 @@ export class Algorithm {
   }
 
   produceCondition(meta) {
-    const node = new SRD.DefaultNodeModel(meta.label, 'green');
+    const node = new SRD.DefaultNodeModel(
+      this.getConditionLabel(meta),
+      'green',
+    );
     node.addListener({
       selectionChanged: this.selectionChanged,
     });

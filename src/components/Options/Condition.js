@@ -38,25 +38,28 @@ class Condition extends React.Component {
   };
 
   render() {
-    const { operation, trueValue, falseValue } = this.props.node;
+    const { operation, trueValue, falseValue, comparisonValue } = this.props.node;
 
     return (
       <div>
-        <div>
-          <ParameterValue
-            onChanged={this.onChanged('trueValue')}
-            value={trueValue}
-            placeholder="истинное значение"
-          />
-        </div>
         <div>
           <label>операция</label>
           <ComparisonOperations
             onChanged={this.onChanged('operation')}
             value={operation}
           />
+          <ParameterValue
+            onChanged={this.onChanged('comparisonValue')}
+            value={comparisonValue}
+            placeholder="значение для сравнения"
+          />
         </div>
         <div>
+          <ParameterValue
+            onChanged={this.onChanged('trueValue')}
+            value={trueValue}
+            placeholder="истинное значение"
+          />
           <ParameterValue
             onChanged={this.onChanged('falseValue')}
             value={falseValue}

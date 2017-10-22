@@ -18,7 +18,7 @@ class ParameterValue extends React.Component {
   render() {
     return (
       <input
-        placeholder="Значение"
+        placeholder={this.props.placeholder}
         onChange={this.onChanged}
         value={this.props.value}
         onKeyUp={this.onKeyUp}

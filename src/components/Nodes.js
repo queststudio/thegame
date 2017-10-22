@@ -21,15 +21,16 @@ class Nodes extends React.Component {
     const elements = [
       {
         operation: CONSTANTS.OPERATORS.DIV,
-        parameterValue: 0,
+        parameterValue: undefined,
         secondOperand: CONSTANTS.ARGUMENTS.CONSTANT,
         type: CONSTANTS.NODES.FORMULA,
         label: 'формула',
       },
       {
         operation: CONSTANTS.COMPARISON_OPERATORS.GREATER,
-        trueValue: 0,
-        falseValue: 0,
+        comparisonValue: undefined,
+        trueValue: undefined,
+        falseValue: undefined,
         type: CONSTANTS.NODES.CONDITION,
         label: 'условие',
       },

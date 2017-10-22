@@ -29,7 +29,6 @@ store.subscribe(render);
 
 /*ToDo temporary here
 + delete node case
-+ update node labels
 + update node links
 
 + get algorithm

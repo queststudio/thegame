@@ -18,6 +18,11 @@ export default (state = {}, action) => {
         ...state,
         activeNodeId: action.payload.id
       };
+    case actions.NODES.CHANGE_NODE:
+      return {
+        ...state,
+        refresher: Math.random()
+      };
     default:
       return state;
   }

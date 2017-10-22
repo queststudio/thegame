@@ -79,6 +79,7 @@ class Formula extends React.Component {
         {secondOperand === CONSTANTS.ARGUMENTS.CONSTANT ? (
           <div>
             <ParameterValue
+              placeholder="значение константы"
               onChanged={this.onChanged('parameterValue')}
               value={parameterValue}
             />
