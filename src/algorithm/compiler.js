@@ -12,7 +12,7 @@ const checkFunctions = {
   [COMPARISON_OPERATORS.GREQUAL]: c => a => a >= c,
   [COMPARISON_OPERATORS.LEEQUAL]: c => a => a <= c,
   [COMPARISON_OPERATORS.LESS]: c => a => a < c,
-  [COMPARISON_OPERATORS.UNEQUAL]: c => a => a != c,
+  [COMPARISON_OPERATORS.UNEQUAL]: c => a => a !== c,
 };
 const computeFunctions = {
   [OPERATORS.DIV]: {
@@ -134,7 +134,7 @@ export const compile = (nodes, diagram) => {
   const enters = this.nodes
     .filter(node => node.type === NODES.INPUT)
     .map(node =>
-      compileStartingPoint(nodesDictionary, node, diagram.getNode(x.id)),
+      compileStartingPoint(nodesDictionary, node, diagram.getNode(node.id)),
     );
 
   return enters;
