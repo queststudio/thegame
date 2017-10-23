@@ -1,5 +1,6 @@
 import * as SRD from 'storm-react-diagrams';
 import CONSTANTS from '../constants';
+import {compile} from './compiler'
 
 //ToDo Consider some big refactoring decoupling business logic from presentation
 //ToDo Move nodes to separate classes
@@ -108,12 +109,12 @@ export class Algorithm {
   updateFormula(item, meta) {
     item.name = this.getFormulaLabel(meta);
 
-    if (meta.secondOperand === CONSTANTS.ARGUMENTS.CONSTANT) {
+    if (meta.secondOperand === CONSTANTS.OPERANDS.CONSTANT) {
       if (item.ports[`in-B`]) {
         const diagram = this.getActiveDiagram();
-        const links = Object
-          .keys(item.ports['in-B'].links)
-          .map(key=>item.ports['in-B'].links[key]);
+        const links = Object.keys(item.ports['in-B'].links).map(
+          key => item.ports['in-B'].links[key],
+        );
         links.forEach(x => diagram.removeLink(x));
         item.removePort(item.ports[`in-B`]);
       }
@@ -129,7 +130,7 @@ export class Algorithm {
       ? meta.parameterValue
       : 'не задано';
     const secondOperand =
-      meta.secondOperand === CONSTANTS.ARGUMENTS.CONSTANT
+      meta.secondOperand === CONSTANTS.OPERANDS.CONSTANT
         ? parameterValue
         : 'B';
 
@@ -198,6 +199,10 @@ export class Algorithm {
 
   getDiagramEngine() {
     return this.diagramEngine;
+  }
+
+  compile() {
+    return compile(this.nodes, this.getActiveDiagram());
   }
 }
 

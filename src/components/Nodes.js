@@ -22,7 +22,7 @@ class Nodes extends React.Component {
       {
         operation: CONSTANTS.OPERATORS.DIV,
         parameterValue: undefined,
-        secondOperand: CONSTANTS.ARGUMENTS.PARAMETER,
+        secondOperand: CONSTANTS.OPERANDS.PARAMETER,
         type: CONSTANTS.NODES.FORMULA,
         label: 'формула',
       },

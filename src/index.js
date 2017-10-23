@@ -28,10 +28,15 @@ store.subscribe(render);
 
 
 /*ToDo temporary here
-+ get algorithm
 + execute algorithm
 + send state to the server
 + calculate inputs for the next cycle
+
++ (?) validate infinite loops
++ (?) validate hanging links
+
++ prevent wrong connections
++ prevent deleting ins and outs
 
 + show inputs
 + show outputs

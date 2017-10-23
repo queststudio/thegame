@@ -38,8 +38,8 @@ class Argument extends React.Component {
   render() {
     return (
       <select onChange={this.onChanged} value={this.props.value}>
-        <option value={CONSTANTS.ARGUMENTS.PARAMETER}>вход</option>
-        <option value={CONSTANTS.ARGUMENTS.CONSTANT}>константа</option>
+        <option value={CONSTANTS.OPERANDS.PARAMETER}>вход</option>
+        <option value={CONSTANTS.OPERANDS.CONSTANT}>константа</option>
       </select>
     );
   }
@@ -76,7 +76,7 @@ class Formula extends React.Component {
             value={secondOperand}
           />
         </div>
-        {secondOperand === CONSTANTS.ARGUMENTS.CONSTANT ? (
+        {secondOperand === CONSTANTS.OPERANDS.CONSTANT ? (
           <div>
             <ParameterValue
               placeholder="значение константы"
