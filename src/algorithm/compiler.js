@@ -34,7 +34,7 @@ const computeFunctions = {
 };
 
 const compilers = {
-  [NODES.CONDITION]: (stack, node) => {
+  [NODES.CONDITION]: node => {
     const compiled = {
       id: node.id,
       type: node.type,
@@ -42,7 +42,7 @@ const compilers = {
     };
     return compiled;
   },
-  [NODES.FORMULA]: (stack, node) => {
+  [NODES.FORMULA]: node => {
     const { operation, secondOperand, parameterValue } = node;
     const compiled = {
       id: node.id,
@@ -51,14 +51,14 @@ const compilers = {
     };
     return compiled;
   },
-  [NODES.OUTPUT]: (stack, node) => {
+  [NODES.OUTPUT]: node => {
     const compiled = {
       id: node.id,
       type: node.type,
     };
     return compiled;
   },
-  [NODES.INPUT]: (stack, node) => {
+  [NODES.INPUT]: node => {
     const compiled = {
       id: node.id,
       type: node.type,
@@ -67,7 +67,7 @@ const compilers = {
   },
 };
 
-const getDestinationPorts = port => {
+const getSourcePorts = port => {
   const links = Object.keys(port.links).map(key => port.links[key]);
 
   const ports = links
@@ -80,62 +80,61 @@ const getDestinationPorts = port => {
   return ports;
 };
 
-const getOutgoingPorts = diagramNode => {
+const getIncommingPorts = diagramNode => {
   const ports = Object.keys(diagramNode.ports).map(
     key => diagramNode.ports[key],
   );
 
-  const outgoing = ports.filter(port => port.name.satrtsWith('out'));
-
-  return outgoing;
+  const incomming = ports.filter(port => port.name.startsWith('in'));
+  return incomming;
 };
 
-const getDestinations = diagramNode => {
-  const ports = getOutgoingPorts(diagramNode);
-  const destinationPorts = ports
-    .map(port => getDestinationPorts(port))
+const getSources = diagramNode => {
+  const ports = getIncommingPorts(diagramNode);
+  const sourcePorts = ports
+    .map(port => getSourcePorts(port))
     .reduce((a, b) => a.concat(b), []);
-  destinationPorts.forEach(x => validateDestinationPort(x));
+  sourcePorts.forEach(x => validateSourcePorts(x));
 
-  const destinations = destinationPorts.map(port => port.parentNode);
-  return destinations;
+  const sources = sourcePorts.map(port => port.parentNode);
+  return sources;
 };
 
-const validateDestinationPort = port => {
-  if (port.name.startsWith('out')) throw { type: EXCEPTIONS.INVALID_LINK };
+const validateSourcePorts = port => {
+  if (port.name.startsWith('in')) throw { type: EXCEPTIONS.INVALID_LINK };
 };
 
 const compileNode = (nodes, stack, node, diagramNode) => {
   if (stack.find(id => id === node.id)) return;
   stack.push(node.id);
 
-  const compiled = compilers[node.type](stack, node);
-  const destinations = getDestinations(diagramNode);
-  compiled.outputs = destinations.map(destination =>
-    compileNode(stack, nodes[destination.id], destination),
+  const compiled = compilers[node.type](node);
+  const sources = getSources(diagramNode);
+  compiled.sources = sources.map(source =>
+    compileNode(nodes, stack, nodes[source.id], source),
   );
 
   return compiled;
 };
 
-const compileStartingPoint = (nodes, startingPoint, diagramNode) => {
-  const stack = [startingPoint.id];
+const compileExitPoint = (nodes, exitPoint, diagramNode) => {
+  const stack = [exitPoint.id];
 
-  const destinations = getDestinations(diagramNode);
+  const sources = getSources(diagramNode);
 
-  return destinations.map(destination => compileNode(nodes, stack, nodes[destination.id], destination));
+  const compiled = compilers[exitPoint.type](exitPoint);
+  compiled.sources = sources.map(source =>
+    compileNode(nodes, stack, nodes[source.id], source),
+  );
+
+  return compiled;
 };
 
 export const compile = (nodes, diagram) => {
-  const nodesDictionary = nodes.reduce((node, dict) => {
-    dict[node.id] = node;
-    return dict;
-  }, {});
-  const enters = this.nodes
-    .filter(node => node.type === NODES.INPUT)
-    .map(node =>
-      compileStartingPoint(nodesDictionary, node, diagram.getNode(node.id)),
-    );
+  const enters = Object.keys(nodes)
+    .map(key => nodes[key])
+    .filter(node => node.type === NODES.OUTPUT)
+    .map(node => compileExitPoint(nodes, node, diagram.getNode(node.id)));
 
   return enters;
 };
