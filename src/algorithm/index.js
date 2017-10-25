@@ -78,8 +78,14 @@ export class Algorithm {
       return node;
     });
 
-    inputNodes.forEach(i => this._addNode(i));
-    outputNodes.forEach(o => this._addNode(o));
+    inputNodes.forEach(i => this._addNode(i,{
+        type: CONSTANTS.NODES.INPUT,
+        label: i.name
+      }));
+    outputNodes.forEach(o => this._addNode(o,{
+      type: CONSTANTS.NODES.OUTPUT,
+      label: o.name
+    }));
   }
 
   addNode(meta) {
