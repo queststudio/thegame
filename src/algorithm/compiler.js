@@ -16,8 +16,16 @@ const checkFunctions = {
 };
 const computeFunctions = {
   [OPERATORS.DIV]: {
-    [OPERANDS.PARAMETER]: () => (a, b) => a / b,
-    [OPERANDS.CONSTANT]: c => a => a / c,
+    [OPERANDS.PARAMETER]: () => (a, b) => {
+      if (b === 0) return Number.MAX_SAFE_INTEGER;
+      if (b === -0) return Number.MIN_SAFE_INTEGER;
+      return a / b;
+    },
+    [OPERANDS.CONSTANT]: c => a => {
+      if (c === 0) return Number.MAX_SAFE_INTEGER;
+      if (c === -0) return Number.MIN_SAFE_INTEGER;
+      return a / c;
+    },
   },
   [OPERATORS.SUM]: {
     [OPERANDS.PARAMETER]: () => (a, b) => a + b,
