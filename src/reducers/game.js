@@ -1,13 +1,13 @@
 import actions from '../actions';
 
-const initialState = { rounds: [], started: false };
+const initialState = { rounds: [], started: false, finished: false };
 
 const reducers = {
   [actions.GAME.STARTED]: (state, payload) => {
     return { ...state, started: true };
   },
   [actions.GAME.FINISHED]: (state, payload) => {
-    return { ...state, started: false };
+    return { ...state, finished: true };
   },
   [actions.GAME.ROUND_STARTED]: (state, payload) => {
     return {

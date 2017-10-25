@@ -1,4 +1,4 @@
-export default {
+const ACTIONS = {
   ALGORITHM_PANEL: {
     DRAG_NODE: 'DRAG_NODE',
     DROP_NODE: 'DROP_NODE',
@@ -20,3 +20,24 @@ export default {
     FINISHED: 'GAME_FINISHED',
   },
 };
+
+export const createMessage = text => ({
+  type: ACTIONS.MESSAGES.CREATE_MESSAGE,
+  payload: {
+    text,
+    timestamp: Date.now(),
+  },
+});
+
+export const startRound = payload => ({
+  type: ACTIONS.GAME.ROUND_STARTED,
+  timestamp: Date.now(),
+  payload,
+});
+
+export const finishRound = payload => ({
+  type: ACTIONS.GAME.ROUND_FINISHED,
+  payload,
+});
+
+export default ACTIONS;

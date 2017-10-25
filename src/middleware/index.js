@@ -1,5 +1,5 @@
 import algorithmPanelMiddleware from './algorithm-panel';
-import stateMachineMiddleware from './state-machine';
+import gameMiddleware from './game';
 
 const loggingMiddleware = ({ dispatch, getState }) => {
   return next => action => {
@@ -11,5 +11,5 @@ const loggingMiddleware = ({ dispatch, getState }) => {
 export default [
   loggingMiddleware,
   algorithmPanelMiddleware,
-  stateMachineMiddleware,
+  gameMiddleware,
 ];

@@ -58,7 +58,7 @@
         pointer-events: all; }
         #root .app .algorithm-panel-wrapper .storm-diagrams-canvas path.selected {
           stroke: #00c0ff !important;
-          stroke-dasharray: 10,2;
+          stroke-dasharray: 10, 2;
           animation: dash 1s linear infinite; }
       #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .port {
         width: 15px;
@@ -87,23 +87,27 @@
             opacity: 0.2;
             cursor: pointer; }
             #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .title .fa:hover {
-              opacity: 1.0; }
+              opacity: 1; }
           #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .title .name {
             flex-grow: 1;
             padding: 5px 5px; }
         #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports {
           display: flex;
           background-image: linear-gradient(rgba(0, 0, 0, 0.1), rgba(0, 0, 0, 0.2)); }
-          #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in, #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out {
+          #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in,
+          #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out {
             flex-grow: 1;
             display: flex;
             flex-direction: column; }
-          #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in-port, #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port {
+          #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in-port,
+          #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port {
             display: flex;
             margin-top: 1px; }
-            #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in-port > *, #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port > * {
+            #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in-port > *,
+            #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port > * {
               align-self: center; }
-            #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in-port .name, #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port .name {
+            #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .in-port .name,
+            #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port .name {
               padding: 0 5px; }
           #root .app .algorithm-panel-wrapper .storm-diagrams-canvas .basic-node .ports .out-port {
             justify-content: flex-end; }
@@ -135,3 +139,10 @@
       height: 500px;
       width: 200px;
       overflow: scroll; }
+    #root .app .tray .btn {
+      border: solid 1px;
+      border-radius: 5px;
+      margin-bottom: 2px;
+      width: 200px;
+      text-align: center;
+      padding: 20px 0; }

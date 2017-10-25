@@ -6,6 +6,12 @@ import Options from './Options';
 import Messages from './Messages';
 import actions from '../actions';
 
+const StartButton = props => (
+  <div className="btn" onClick={props.onClick}>
+    <span className="txt">начать</span>
+  </div>
+);
+
 class App extends React.Component {
   render() {
     const {
@@ -14,7 +20,6 @@ class App extends React.Component {
       messages,
       dragNode,
       changeNode,
-      createMessage,
     } = this.props;
     const activeNode = nodes.find(x => x.id === activeNodeId);
 
@@ -26,9 +31,10 @@ class App extends React.Component {
         <div className="tray">
           <Nodes onNodeDrag={dragNode} />
           <Options node={activeNode} onNodeChanged={changeNode} />
-          <div onClick={() => createMessage({ text: `We come in peace! ${Date()}` })}>
+          <div>
             <Messages messages={messages} />
           </div>
+          <StartButton onClick={this.props.startGame} />
         </div>
       </div>
     );
@@ -52,8 +58,8 @@ const mapDispatchToProps = {
     type: actions.NODES.CHANGE_NODE,
     payload,
   }),
-  createMessage: payload => ({
-    type: actions.MESSAGES.CREATE_MESSAGE,
+  startGame: payload => ({
+    type: actions.GAME.STARTED,
     payload,
   }),
 };
