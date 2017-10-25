@@ -5,10 +5,9 @@ const Message = props => {
 };
 
 const Messages = props => {
+  const ordered = props.messages.sort((a, b) => a.timestamp - b.timestamp);
   return (
-    <div className="messages">
-      {props.messages.map(m => <Message message={m} />)}
-    </div>
+    <div className="messages">{ordered.map(m => <Message message={m} />)}</div>
   );
 };
 
