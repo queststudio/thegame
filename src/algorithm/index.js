@@ -179,8 +179,7 @@ export class Algorithm {
       entityRemoved: this.nodeRemoved,
     });
     node.addPort(new SRD.DefaultPortModel(true, `in`, 'вход'));
-    node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'истинно'));
-    node.addPort(new SRD.DefaultPortModel(false, `out-2`, 'ложно'));
+    node.addPort(new SRD.DefaultPortModel(false, `out`, 'выход'));
     node.x = meta.x;
     node.y = meta.y;
 
