@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, request, jsonify, make_response
 from flask_restful import Api, Resource
 
 
@@ -17,5 +17,10 @@ api = Api(app)
 class Root(Resource):
     def get(self):
         return {'status': 'look ma!'}
+
+    def post(self):
+        data = request.get_json()
+        servos = data.get('servos')
+        return servos
 
 api.add_resource(Root, '/')
