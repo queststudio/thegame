@@ -233,10 +233,7 @@ export class Algorithm {
 
   execute(inputs) {
     const compiled = compile(this.nodes, this.getActiveDiagram());
-    console.log(compiled);
-    const result = run(compiled, inputs);
-    console.log(result);
-    return result;
+    return run(compiled, inputs);
   }
 }
 
