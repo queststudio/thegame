@@ -20,7 +20,7 @@ class Nodes extends React.Component {
   render() {
     const elements = [
       {
-        operation: CONSTANTS.OPERATORS.DIV,
+        operation: CONSTANTS.OPERATORS.SUM,
         parameterValue: undefined,
         secondOperand: CONSTANTS.OPERANDS.PARAMETER,
         type: CONSTANTS.NODES.FORMULA,
