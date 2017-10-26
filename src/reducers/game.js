@@ -12,11 +12,14 @@ const reducers = {
   [actions.GAME.ROUND_STARTED]: (state, payload) => {
     return {
       ...state,
-      rounds: [...state.rounds, { ...payload, number: state.rounds.length }],
+      rounds: [
+        ...state.rounds,
+        { ...payload, number: state.rounds.length, finished: false },
+      ],
     };
   },
   [actions.GAME.ROUND_FINISHED]: (state, payload) => {
-    const index = state.rounds.findIndex(x => x.payload.id);
+    const index = state.rounds.findIndex(x => x.id == payload.id);
     return {
       ...state,
       rounds: [
@@ -24,6 +27,7 @@ const reducers = {
         {
           ...state.rounds[index],
           ...payload,
+          finished: true,
         },
         ...state.rounds.slice(index + 1),
       ],

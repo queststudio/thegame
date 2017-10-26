@@ -1,5 +1,7 @@
 import algorithmPanelMiddleware from './algorithm-panel';
 import gameMiddleware from './game';
+import onStateChanged from 'redux-on-state-change'
+
 
 const loggingMiddleware = ({ dispatch, getState }) => {
   return next => action => {
@@ -11,5 +13,5 @@ const loggingMiddleware = ({ dispatch, getState }) => {
 export default [
   loggingMiddleware,
   algorithmPanelMiddleware,
-  gameMiddleware,
+  onStateChanged(gameMiddleware)
 ];

@@ -1,24 +1,26 @@
 import actions, { createMessage, startRound, finishRound } from '../actions';
 import { getAlgorithm } from '../algorithm';
 import { servos } from '../api';
-import { startManos } from '../mechanics';
+import { startManos } from '../mechanics/index';
 
 const sideEffects = {
-  [actions.GAME.STARTED]: (dispatch, action, getState) => {
+  [actions.GAME.STARTED]: (dispatch, action, state) => {
     dispatch(createMessage('Начало игры'));
-    const manos = startManos();
-    dispatch(startRound({ manos }));
+    dispatch(startRound({ manos: startManos }));
   },
-  [actions.GAME.ROUND_STARTED]: (dispatch, action, getState) => {
+  [actions.GAME.ROUND_STARTED]: (dispatch, action, state) => {
+    const { id, manos } = action.payload;
     const algorithm = getAlgorithm();
     const ventiles = algorithm
-      .execute(action.payload.manos)
+      .execute(manos)
       .map(x => (x < 0 ? 0 : x))
       .map(x => (x > 100 ? 100 : x));
 
-    dispatch(finishRound({ manos: newManos, ventiles }));
+    const newManos = manos;
+
+    dispatch(finishRound({ id, manos: newManos, ventiles }));
   },
-  [actions.GAME.ROUND_FINISHED]: (dispatch, action, getState) => {
+  [actions.GAME.ROUND_FINISHED]: (dispatch, action, state) => {
     const { ventiles, manos } = action.payload;
     const servoState = manos.concat(ventiles);
     servos(servoState);
@@ -26,7 +28,7 @@ const sideEffects = {
     //ToDo check if the game is finished
     //ToDo otherwise start a new round
   },
-  [actions.GAME.FINISHED]: (dispatch, action, getState) => {
+  [actions.GAME.FINISHED]: (dispatch, action, state) => {
     if (action.payload.win)
       dispatch(
         createMessage(
@@ -40,13 +42,12 @@ const sideEffects = {
   },
 };
 
-const gameMiddleware = ({ dispatch, getState }) => {
-  return next => action => {
-    if (sideEffects[action.type])
-      sideEffects[action.type](dispatch, action, getState);
+const gameMiddleware = (prevState, nextState, action, dispatch) => {
+  if(!action)
+    return;
 
-    return next(action);
-  };
+  if (sideEffects[action.type])
+    sideEffects[action.type](dispatch, action, nextState);
 };
 
 export default gameMiddleware;

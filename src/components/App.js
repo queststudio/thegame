@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import Options from './Options';
-import Messages from './Console';
+import Console from './Console';
 import actions from '../actions';
 
 const StartButton = props => (
@@ -18,6 +18,7 @@ class App extends React.Component {
       activeNodeId,
       nodes,
       messages,
+      rounds,
       dragNode,
       changeNode,
     } = this.props;
@@ -32,7 +33,7 @@ class App extends React.Component {
           <Nodes onNodeDrag={dragNode} />
           <Options node={activeNode} onNodeChanged={changeNode} />
           <div>
-            <Messages messages={messages} />
+            <Console messages={messages} rounds={rounds} />
           </div>
           <StartButton onClick={this.props.startGame} />
         </div>
@@ -46,6 +47,7 @@ const mapStateToProps = state => {
     activeNodeId: state.algorithmPanel.activeNodeId,
     nodes: state.nodes,
     messages: state.messages,
+    rounds: state.game.rounds,
   };
 };
 

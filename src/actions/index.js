@@ -32,10 +32,12 @@ export const createMessage = text => ({
 });
 
 export const startRound = payload => ({
-  id: guid(),
   type: ACTIONS.GAME.ROUND_STARTED,
-  timestamp: Date.now(),
-  payload,
+  payload: {
+    id: guid(),
+    timestamp: Date.now(),
+    ...payload,
+  },
 });
 
 export const finishRound = payload => ({
