@@ -73,6 +73,7 @@ const compilers = {
     const compiled = {
       id: node.id,
       type: node.type,
+      index: node.index,
     };
     return compiled;
   },
@@ -88,6 +89,8 @@ const getSourcePorts = port => {
         link.sourcePort.id === port.id ? link.targetPort : link.sourcePort,
     );
 
+  if (ports.length > 1) throw { type: EXCEPTIONS.TOO_MANY_SOURCES };
+
   return ports;
 };
 
@@ -102,6 +105,7 @@ const getIncommingPorts = diagramNode => {
 
 const getSources = diagramNode => {
   const ports = getIncommingPorts(diagramNode);
+
   const sourcePorts = ports
     .map(port => getSourcePorts(port))
     .reduce((a, b) => a.concat(b), []);
@@ -124,6 +128,7 @@ const compileNode = (nodes, stack, node, diagramNode) => {
   compiled.sources = sources.map(source =>
     compileNode(nodes, stack, nodes[source.id], source),
   );
+  compiled.type = node.type;
 
   return compiled;
 };
@@ -131,12 +136,15 @@ const compileNode = (nodes, stack, node, diagramNode) => {
 const compileExitPoint = (nodes, exitPoint, diagramNode) => {
   const stack = [exitPoint.id];
 
-  const sources = getSources(diagramNode);
-
   const compiled = compilers[exitPoint.type](exitPoint);
-  compiled.sources = sources.map(source =>
+  const sources = getSources(diagramNode).map(source =>
     compileNode(nodes, stack, nodes[source.id], source),
   );
+
+  if (sources.length > 1) throw { type: EXCEPTIONS.TOO_MANY_SOURCES };
+
+  compiled.source = sources[0];
+  compiled.type = exitPoint.type;
 
   return compiled;
 };
