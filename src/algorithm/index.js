@@ -231,8 +231,12 @@ export class Algorithm {
     return this.diagramEngine;
   }
 
-  compile() {
-    return compile(this.nodes, this.getActiveDiagram());
+  execute(inputs) {
+    const compiled = compile(this.nodes, this.getActiveDiagram());
+    console.log(compiled);
+    const result = run(compiled, inputs);
+    console.log(result);
+    return result;
   }
 }
 
