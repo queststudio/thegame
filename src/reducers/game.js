@@ -16,13 +16,16 @@ const reducers = {
     };
   },
   [actions.GAME.ROUND_FINISHED]: (state, payload) => {
-    const lastIndex = state.rounds.length - 1;
-    const lastRound = state.rounds[lastIndex];
+    const index = state.rounds.findIndex(x => x.payload.id);
     return {
       ...state,
       rounds: [
-        ...state.rounds.slice(0, lastIndex),
-        { ...lastRound, ...payload },
+        ...state.rounds.slice(0, index),
+        {
+          ...state.rounds[index],
+          ...payload,
+        },
+        ...state.rounds.slice(index + 1),
       ],
     };
   },
