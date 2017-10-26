@@ -1,5 +1,6 @@
 from flask import Flask, request, jsonify, make_response
 from flask_restful import Api, Resource
+from flask_cors import CORS
 import Adafruit_PCA9685
 
 SERVO_MIN = 150
@@ -13,6 +14,7 @@ class Config(object):
     LOGGER_NAME = 'api'
 
 app = Flask(__name__)
+CORS(app)
 app.config.from_object(Config)
 
 api = Api(app)
@@ -36,6 +38,6 @@ class Root(Resource):
             target = get_real_target(servos[i])
             print('moving servo {} to {}({})'.format(i,servos[i],target))
             pwm.set_pwm(i, 0, target)
-        return servos
+        return {'status': 'success'}
 
 api.add_resource(Root, '/')
