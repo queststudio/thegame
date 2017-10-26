@@ -45,4 +45,9 @@ export const finishRound = payload => ({
   payload,
 });
 
+export const finishGame = payload => ({
+  type: ACTIONS.GAME.FINISHED,
+  payload,
+});
+
 export default ACTIONS;
