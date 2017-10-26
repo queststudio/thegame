@@ -11,7 +11,8 @@ export default (state = {}, action) => {
     case actions.ALGORITHM_PANEL.DROP_NODE:
       return {
         ...state,
-        refresher: Math.random()
+        refresher: Math.random(),
+        dragNode: undefined
       };
     case actions.ALGORITHM_PANEL.SELECT_NODE:
       return {
