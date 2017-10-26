@@ -12,12 +12,14 @@ class ParameterValue extends React.Component {
   }
 
   onChanged(e) {
-    this.props.onChanged(e.target.value);
+    const value = parseInt(e.target.value)
+    this.props.onChanged(value);
   }
 
   render() {
     return (
       <input
+        type="number"
         placeholder={this.props.placeholder}
         onChange={this.onChanged}
         value={this.props.value}
