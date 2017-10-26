@@ -28,6 +28,7 @@ export const COMPARISON_OPERATORS = {
 
 export const EXCEPTIONS = {
   INVALID_LINK: 'invalid link',
+  TOO_MANY_SOURCES: 'too many sources'
 };
 
 export default {

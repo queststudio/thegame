@@ -120,6 +120,10 @@ export class Algorithm {
 
   updateNode(meta) {
     if (this.nodeUpdaters[meta.type]) {
+      this.nodes[meta.id] = {
+        ...this.nodes[meta.id],
+        ...meta,
+      };
       let node = this.getActiveDiagram().getNode(meta.id);
       this.nodeUpdaters[meta.type](node, meta);
     }
@@ -159,9 +163,7 @@ export class Algorithm {
       ? meta.parameterValue
       : 'не задано';
     const secondOperand =
-      meta.secondOperand === CONSTANTS.OPERANDS.CONSTANT
-        ? parameterValue
-        : 'B';
+      meta.secondOperand === CONSTANTS.OPERANDS.CONSTANT ? parameterValue : 'B';
 
     return `A ${meta.operation} ${secondOperand}`;
   }

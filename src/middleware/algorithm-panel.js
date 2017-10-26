@@ -4,10 +4,12 @@ import { getAlgorithm } from '../algorithm';
 const sideEffects = {
   [actions.ALGORITHM_PANEL.DROP_NODE]: (action, getState) => {
     const algorithm = getAlgorithm();
-    algorithm.addNode({
-      ...action.payload,
-      ...getState().algorithmPanel.dragNode,
-    });
+    const node = getState().algorithmPanel.dragNode;
+    if (node)
+      algorithm.addNode({
+        ...action.payload,
+        ...node,
+      });
   },
   [actions.NODES.CHANGE_NODE]: (action, getState) => {
     const algorithm = getAlgorithm();
