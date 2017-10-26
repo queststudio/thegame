@@ -4,11 +4,11 @@ const Message = props => {
   return <p>{props.message.text}</p>;
 };
 
-const Messages = props => {
+const Console = props => {
   const ordered = props.messages.sort((a, b) => a.timestamp - b.timestamp);
   return (
     <div className="messages">{ordered.map(m => <Message message={m} />)}</div>
   );
 };
 
-export default Messages;
+export default Console;

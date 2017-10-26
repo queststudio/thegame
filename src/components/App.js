@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import Options from './Options';
-import Messages from './Messages';
+import Messages from './Console';
 import actions from '../actions';
 
 const StartButton = props => (
