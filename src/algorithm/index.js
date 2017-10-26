@@ -1,6 +1,7 @@
 import * as SRD from 'storm-react-diagrams';
 import CONSTANTS from '../constants';
-import {compile} from './compiler'
+import { compile } from './compiler';
+import { run } from './runner';
 
 //ToDo Consider some big refactoring decoupling business logic from presentation
 //ToDo Move nodes to separate classes
@@ -16,7 +17,23 @@ export class Algorithm {
     this.getConditionLabel = this.getConditionLabel.bind(this);
 
     this.initialized = false;
-    this.inputs = ['Манометр 1', 'Манометр 2', 'Манометр 3'];
+    this.inputs = [
+      {
+        index: 0,
+        label: 'Манометр 1',
+        type: CONSTANTS.NODES.INPUT,
+      },
+      {
+        index: 1,
+        label: 'Манометр 2',
+        type: CONSTANTS.NODES.INPUT,
+      },
+      {
+        index: 2,
+        label: 'Манометр 3',
+        type: CONSTANTS.NODES.INPUT,
+      },
+    ];
     this.outputs = [
       'Вентиль 1',
       'Вентиль 2',
@@ -24,7 +41,12 @@ export class Algorithm {
       'Вентиль 4',
       'Вентиль 5',
       'Вентиль 6',
-    ];
+    ].map((label, index) => ({
+      index,
+      label,
+      type: CONSTANTS.NODES.OUTPUT,
+    }));
+
     this.nodes = {};
 
     this.diagramEngine = new SRD.DiagramEngine();
@@ -54,38 +76,39 @@ export class Algorithm {
     this.activeModel = new SRD.DiagramModel();
     this.diagramEngine.setDiagramModel(this.activeModel);
 
-    const inputNodes = this.inputs.map((input, index) => {
-      const node = new SRD.DefaultNodeModel(input, 'rgb(0,192,255)');
-      node.addListener({
-        selectionChanged: this.selectionChanged,
-        entityRemoved: this.nodeRemoved,
-      });
-      node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'));
-      node.x = 100;
-      node.y = 100 + index * 150;
-      return node;
-    });
+    this.inputs
+      .map((meta, index) => {
+        const node = new SRD.DefaultNodeModel(meta.label, 'rgb(0,192,255)');
+        node.addListener({
+          selectionChanged: this.selectionChanged,
+          entityRemoved: this.nodeRemoved,
+        });
+        node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'));
+        node.x = 100;
+        node.y = 100 + index * 150;
 
-    const outputNodes = this.outputs.map((output, index) => {
-      const node = new SRD.DefaultNodeModel(output, 'rgb(0,192,255)');
-      node.addListener({
-        selectionChanged: this.selectionChanged,
-        entityRemoved: this.nodeRemoved,
-      });
-      node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
-      node.x = 600;
-      node.y = 30 + index * 100;
-      return node;
-    });
+        return { node, meta };
+      })
+      .forEach(({ node, meta }) => this._addNode(node, meta));
 
-    inputNodes.forEach(i => this._addNode(i,{
-        type: CONSTANTS.NODES.INPUT,
-        label: i.name
-      }));
-    outputNodes.forEach(o => this._addNode(o,{
-      type: CONSTANTS.NODES.OUTPUT,
-      label: o.name
-    }));
+    this.outputs
+      .map((meta, index) => {
+        const node = new SRD.DefaultNodeModel(meta.label, 'rgb(0,192,255)');
+        node.addListener({
+          selectionChanged: this.selectionChanged,
+          entityRemoved: this.nodeRemoved,
+        });
+        node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'));
+        node.x = 600;
+        node.y = 30 + index * 100;
+        return node;
+      })
+      .forEach(node =>
+        this._addNode(node, {
+          type: CONSTANTS.NODES.OUTPUT,
+          label: node.name,
+        }),
+      );
   }
 
   addNode(meta) {
