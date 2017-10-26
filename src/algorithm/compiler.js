@@ -43,10 +43,13 @@ const computeFunctions = {
 
 const compilers = {
   [NODES.CONDITION]: node => {
+    const check = checkFunctions[node.operation](node.comparisonValue);
+    const compute = a => (check(a) ? node.trueValue : node.falseValue);
+
     const compiled = {
       id: node.id,
       type: node.type,
-      check: checkFunctions[node.operation](node.comparisonValue),
+      compute,
     };
     return compiled;
   },
