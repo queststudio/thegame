@@ -13,3 +13,12 @@ pins https://pinout.xyz/pinout/i2c
     
 ##To start
     sh start.sh
+    
+    
+    
+##To configure servos
+Change values in serer/api/\_\_init__.py
+
+    SERVO_MIN = 150
+    SERVO_MAX = 600
+    
