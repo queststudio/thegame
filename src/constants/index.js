@@ -28,10 +28,13 @@ export const COMPARISON_OPERATORS = {
 
 export const EXCEPTIONS = {
   INVALID_LINK: 'invalid link',
-  TOO_MANY_SOURCES: 'too many sources'
+  TOO_MANY_SOURCES: 'too many sources',
 };
 
+export const HOST = 'http://localhost:8088';
+
 export default {
+  HOST,
   NODES,
   OPERATORS,
   OPERANDS,
