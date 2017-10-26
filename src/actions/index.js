@@ -1,3 +1,5 @@
+import { guid } from '../utils/index';
+
 const ACTIONS = {
   ALGORITHM_PANEL: {
     DRAG_NODE: 'DRAG_NODE',
@@ -30,6 +32,7 @@ export const createMessage = text => ({
 });
 
 export const startRound = payload => ({
+  id: guid(),
   type: ACTIONS.GAME.ROUND_STARTED,
   timestamp: Date.now(),
   payload,
