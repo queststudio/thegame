@@ -34,12 +34,12 @@ const sideEffects = {
     const { ventiles, manos } = action.payload;
 
     const servoState = manos.concat(ventiles);
-    servos(servoState);
-
-    if (checkWinCondition(manos)) dispatch(finishGame({ won: true }));
-    else if (isLoseCondition(manos)) dispatch(finishGame({ lose: true }));
-    else if (isIdleCondition()) dispatch(finishGame({ idle: true }));
-    else dispatch(startRound({ manos }));
+    servos(servoState).then(() => {
+      if (checkWinCondition(manos)) dispatch(finishGame({ won: true }));
+      else if (isLoseCondition(manos)) dispatch(finishGame({ lose: true }));
+      else if (isIdleCondition()) dispatch(finishGame({ idle: true }));
+      else dispatch(startRound({ manos }));
+    });
   },
   [actions.GAME.FINISHED]: (dispatch, action, state) => {
     if (action.payload.win)
@@ -48,13 +48,15 @@ const sideEffects = {
           'Поздравляем, ваш алгоритм успешно справился с заданием!',
         ),
       );
-    else if( action.payload.lose)
+    else if (action.payload.lose)
       dispatch(
         createMessage('Алгоритм привел систему к аварии. Требуются доработки.'),
       );
     else
       dispatch(
-        createMessage('Алгоритм не справился с задачей за заданное время. Требуются доработки.'),
+        createMessage(
+          'Алгоритм не справился с задачей за заданное время. Требуются доработки.',
+        ),
       );
   },
 };

@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, make_response
 from flask_restful import Api, Resource
 from flask_cors import CORS
 import Adafruit_PCA9685
+import time
 
 SERVO_MIN = 150
 SERVO_MAX = 600
@@ -38,6 +39,7 @@ class Root(Resource):
             target = get_real_target(servos[i])
             print('moving servo {} to {}({})'.format(i,servos[i],target))
             pwm.set_pwm(i, 0, target)
+        time.sleep(1)
         return {'status': 'success'}
 
 api.add_resource(Root, '/')
