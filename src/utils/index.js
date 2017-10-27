@@ -4,3 +4,7 @@ export const guid = () =>
       v = c == 'x' ? r : (r & 0x3) | 0x8;
     return v.toString(16);
   });
+
+export const random = (min, max) => {
+  return Math.floor(Math.random() * (max - min + 1) + min);
+};

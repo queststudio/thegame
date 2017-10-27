@@ -11,10 +11,13 @@ import {
   isLoseCondition,
   checkWinCondition,
   isIdleCondition,
+  drop,
+  calculateNewState,
 } from '../mechanics';
 
 const sideEffects = {
   [actions.GAME.STARTED]: (dispatch, action, state) => {
+    drop();
     dispatch(createMessage('Начало игры'));
     dispatch(startRound({ manos: startManos }));
   },
@@ -26,19 +29,20 @@ const sideEffects = {
       .map(x => (x < 0 ? 0 : x))
       .map(x => (x > 100 ? 100 : x));
 
-    const newManos = manos;
+    const manosAfter = calculateNewState(manos, ventiles);
 
-    dispatch(finishRound({ id, manos: newManos, ventiles }));
+    dispatch(finishRound({ id, manosAfter: manosAfter, ventiles }));
   },
   [actions.GAME.ROUND_FINISHED]: (dispatch, action, state) => {
-    const { ventiles, manos } = action.payload;
+    const { ventiles, manosAfter } = action.payload;
 
-    const servoState = manos.concat(ventiles);
+    const servoState = manosAfter.concat(ventiles);
     servos(servoState).then(() => {
-      if (checkWinCondition(manos)) dispatch(finishGame({ won: true }));
-      else if (isLoseCondition(manos)) dispatch(finishGame({ lose: true }));
+      if (checkWinCondition(manosAfter)) dispatch(finishGame({ won: true }));
+      else if (isLoseCondition(manosAfter))
+        dispatch(finishGame({ lose: true }));
       else if (isIdleCondition()) dispatch(finishGame({ idle: true }));
-      else dispatch(startRound({ manos }));
+      else dispatch(startRound({ manos: manosAfter }));
     });
   },
   [actions.GAME.FINISHED]: (dispatch, action, state) => {
