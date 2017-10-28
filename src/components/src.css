@@ -139,6 +139,24 @@
       height: 500px;
       width: 200px;
       overflow: scroll; }
+      #root .app .tray .messages .message {
+        border-radius: 5px;
+        margin: 10px;
+        background-color: lightgrey;
+        align-content: center;
+        padding: 5px; }
+      #root .app .tray .messages .round {
+        border-radius: 5px;
+        margin: 10px;
+        background-color: lightgrey;
+        padding: 5px;
+        align-content: center; }
+        #root .app .tray .messages .round .input {
+          padding: 5px;
+          background-color: rgba(0, 192, 255, 0.7); }
+        #root .app .tray .messages .round .output {
+          padding: 5px;
+          background-color: rgba(0, 192, 255, 0.7); }
     #root .app .tray .btn {
       border: solid 1px;
       border-radius: 5px;

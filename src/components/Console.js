@@ -1,11 +1,15 @@
 import React from 'react';
 
 const Message = props => {
-  return <p>{props.message.text}</p>;
+  return <div className="message">{props.message.text}</div>;
 };
 
-const Manos = props => <p>Манометры: {props.manos.join(', ')}</p>;
-const Ventiles = props => <p>Вентили: {props.ventiles.join(', ')}</p>;
+const Manos = props => (
+  <div className="input">Манометры: {props.manos.join(', ')}</div>
+);
+const Ventiles = props => (
+  <div className="output">Вентили: {props.ventiles.join(', ')}</div>
+);
 
 const FinishedRound = props => {
   const { manos, ventiles } = props.round;

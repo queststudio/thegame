@@ -196,6 +196,29 @@
         height: 500px;
         width: 200px;
         overflow: scroll;
+
+        .message {
+          border-radius: 5px;
+          margin: 10px;
+          background-color: lightgrey;
+          align-content: center;
+          padding: 5px;
+        }
+        .round {
+          border-radius: 5px;
+          margin: 10px;
+          background-color: lightgrey;
+          padding: 5px;
+          align-content: center;
+          .input {
+            padding: 5px;
+            background-color: rgba(0, 192, 255, 0.7);
+          }
+          .output {
+            padding: 5px;
+            background-color: rgba(0, 192, 255, 0.7);
+          }
+        }
       }
 
       .btn {
