@@ -35,6 +35,4 @@ store.subscribe(render);
 + show pending
 
 + make inactive while execute
-
-+ start/stop buttons
 */

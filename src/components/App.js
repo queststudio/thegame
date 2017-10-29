@@ -4,13 +4,18 @@ import Nodes from './Nodes';
 import AlgorithmPanel from './AlgorithmPanel';
 import Options from './Options';
 import Console from './Console';
-import actions from '../actions';
+import actions, { finishGame } from '../actions';
 
-const StartButton = props => (
-  <div className="btn" onClick={props.onClick}>
-    <span className="txt">начать</span>
-  </div>
-);
+const StartButton = props => {
+  const text = props.running ? 'завершить исполнение' : 'начать исполнение';
+  const onClick = props.running ? props.stopGame : props.startGame;
+
+  return (
+    <div className="btn" onClick={onClick}>
+      <span className="txt">{text}</span>
+    </div>
+  );
+};
 
 class App extends React.Component {
   render() {
@@ -22,6 +27,9 @@ class App extends React.Component {
       dragNode,
       changeNode,
       mistakes,
+      startGame,
+      stopGame,
+      running,
     } = this.props;
     const activeNode = nodes.find(x => x.id === activeNodeId);
 
@@ -36,7 +44,11 @@ class App extends React.Component {
           <div>
             <Console messages={messages} rounds={rounds} mistakes={mistakes} />
           </div>
-          <StartButton onClick={this.props.startGame} />
+          <StartButton
+            startGame={startGame}
+            stopGame={stopGame}
+            running={running}
+          />
         </div>
       </div>
     );
@@ -50,6 +62,7 @@ const mapStateToProps = state => {
     messages: state.messages,
     rounds: state.game.rounds,
     mistakes: state.algorithmPanel.mistakes,
+    running: state.game.running,
   };
 };
 
@@ -66,5 +79,6 @@ const mapDispatchToProps = {
     type: actions.GAME.STARTED,
     payload,
   }),
+  stopGame: () => finishGame({ stop: true }),
 };
 export default connect(mapStateToProps, mapDispatchToProps)(App);

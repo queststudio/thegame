@@ -23,6 +23,9 @@ const sideEffects = {
     dispatch(startRound({ manos: startManos }));
   },
   [actions.GAME.ROUND_STARTED]: (dispatch, action, state) => {
+    if(!state.game.running)
+      return
+
     const { id, manos } = action.payload;
     const algorithm = getAlgorithm();
 
@@ -53,7 +56,13 @@ const sideEffects = {
     });
   },
   [actions.GAME.FINISHED]: (dispatch, action, state) => {
-    if (action.payload.err)
+    if (action.payload.stop)
+      dispatch(
+        createMessage(
+          'Исполнение алгоритма остановлено.',
+        ),
+      );
+    else if (action.payload.err)
       dispatch(
         createMessage(
           'В алгоритме обнаружена ошибка. Исправьте ее и попробуйте снова.',
