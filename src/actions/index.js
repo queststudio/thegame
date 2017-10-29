@@ -6,6 +6,7 @@ const ACTIONS = {
     DROP_NODE: 'DROP_NODE',
     SELECT_NODE: 'SELECT_NODE',
     ABANDON_NODE: 'ABANDON_NODE',
+    MISTAKE: 'MISTAKE',
   },
   NODES: {
     CREATE_NODE: 'CREATE_NODE',
@@ -48,6 +49,15 @@ export const finishRound = payload => ({
 export const finishGame = payload => ({
   type: ACTIONS.GAME.FINISHED,
   payload,
+});
+
+export const algorithmicMistake = payload => ({
+  type: ACTIONS.ALGORITHM_PANEL.MISTAKE,
+  payload: {
+    id: guid(),
+    timestamp: Date.now(),
+    ...payload,
+  },
 });
 
 export default ACTIONS;

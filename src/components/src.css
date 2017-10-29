@@ -145,6 +145,12 @@
         background-color: lightgrey;
         align-content: center;
         padding: 5px; }
+      #root .app .tray .messages .mistake {
+        border-radius: 5px;
+        margin: 10px;
+        background-color: lightcoral;
+        align-content: center;
+        padding: 5px; }
       #root .app .tray .messages .round {
         border-radius: 5px;
         margin: 10px;

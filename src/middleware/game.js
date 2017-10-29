@@ -3,6 +3,7 @@ import actions, {
   startRound,
   finishRound,
   finishGame,
+  algorithmicMistake,
 } from '../actions';
 import { getAlgorithm } from '../algorithm';
 import { servos } from '../api';
@@ -24,14 +25,20 @@ const sideEffects = {
   [actions.GAME.ROUND_STARTED]: (dispatch, action, state) => {
     const { id, manos } = action.payload;
     const algorithm = getAlgorithm();
-    const ventiles = algorithm
-      .execute(manos)
-      .map(x => (x < 0 ? 0 : x))
-      .map(x => (x > 100 ? 100 : x));
 
-    const manosAfter = calculateNewState(manos, ventiles);
+    try {
+      const ventiles = algorithm
+        .execute(manos)
+        .map(x => (x < 0 ? 0 : x))
+        .map(x => (x > 100 ? 100 : x));
 
-    dispatch(finishRound({ id, manosAfter: manosAfter, ventiles }));
+      const manosAfter = calculateNewState(manos, ventiles);
+
+      dispatch(finishRound({ id, manosAfter: manosAfter, ventiles }));
+    } catch (err) {
+      dispatch(algorithmicMistake(err));
+      dispatch(finishGame({ err: true }));
+    }
   },
   [actions.GAME.ROUND_FINISHED]: (dispatch, action, state) => {
     const { ventiles, manosAfter } = action.payload;
@@ -46,7 +53,13 @@ const sideEffects = {
     });
   },
   [actions.GAME.FINISHED]: (dispatch, action, state) => {
-    if (action.payload.win)
+    if (action.payload.err)
+      dispatch(
+        createMessage(
+          'В алгоритме обнаружена ошибка. Исправьте ее и попробуйте снова.',
+        ),
+      );
+    else if (action.payload.win)
       dispatch(
         createMessage(
           'Поздравляем, ваш алгоритм успешно справился с заданием!',

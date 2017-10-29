@@ -82,6 +82,10 @@ const compilers = {
 const getSourcePorts = port => {
   const links = Object.keys(port.links).map(key => port.links[key]);
 
+  links.filter(link => !link.sourcePort || !link.targetPort).forEach(x => {
+    throw { type: EXCEPTIONS.HANGING_LINK };
+  });
+
   const ports = links
     .filter(link => link.sourcePort.id != link.targetPort.id)
     .map(
@@ -116,11 +120,12 @@ const getSources = diagramNode => {
 };
 
 const validateSourcePorts = port => {
-  if (port.name.startsWith('in')) throw { type: EXCEPTIONS.INVALID_LINK };
+  if (port.name.startsWith('in')) throw { type: EXCEPTIONS.TWO_INPUTS_CONNECTED };
 };
 
 const compileNode = (nodes, stack, node, diagramNode) => {
-  if (stack.find(id => id === node.id)) return;
+  if (stack.find(id => id === node.id))
+    throw { type: EXCEPTIONS.CIRCULAR_REFERENCE };
   stack.push(node.id);
 
   const compiled = compilers[node.type](node);
@@ -134,6 +139,9 @@ const compileNode = (nodes, stack, node, diagramNode) => {
 };
 
 const compileExitPoint = (nodes, exitPoint, diagramNode) => {
+  if(!diagramNode)
+    throw { type: EXCEPTIONS.ONE_OF_THE_EXITS_IS_ABSENT };
+
   const stack = [exitPoint.id];
 
   const compiled = compilers[exitPoint.type](exitPoint);

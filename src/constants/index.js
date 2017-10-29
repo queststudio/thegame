@@ -30,8 +30,11 @@ export const COMPARISON_OPERATORS = {
 };
 
 export const EXCEPTIONS = {
-  INVALID_LINK: 'invalid link',
+  TWO_INPUTS_CONNECTED: 'two inputs connected',
   TOO_MANY_SOURCES: 'too many sources',
+  CIRCULAR_REFERENCE: 'circular reference',
+  HANGING_LINK: 'link with not enough connections',
+  ONE_OF_THE_EXITS_IS_ABSENT: 'one of the exits is absent'
 };
 
 export const HOST = 'http://localhost:8088';

@@ -21,6 +21,7 @@ class App extends React.Component {
       rounds,
       dragNode,
       changeNode,
+      mistakes,
     } = this.props;
     const activeNode = nodes.find(x => x.id === activeNodeId);
 
@@ -33,7 +34,7 @@ class App extends React.Component {
           <Nodes onNodeDrag={dragNode} />
           <Options node={activeNode} onNodeChanged={changeNode} />
           <div>
-            <Console messages={messages} rounds={rounds} />
+            <Console messages={messages} rounds={rounds} mistakes={mistakes} />
           </div>
           <StartButton onClick={this.props.startGame} />
         </div>
@@ -48,6 +49,7 @@ const mapStateToProps = state => {
     nodes: state.nodes,
     messages: state.messages,
     rounds: state.game.rounds,
+    mistakes: state.algorithmPanel.mistakes,
   };
 };
 
