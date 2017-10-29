@@ -37,10 +37,7 @@ export const EXCEPTIONS = {
   ONE_OF_THE_EXITS_IS_ABSENT: 'one of the exits is absent'
 };
 
-export const HOST = 'http://localhost:8088';
-
 export default {
-  HOST,
   NODES,
   OPERATORS,
   OPERANDS,
