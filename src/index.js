@@ -36,8 +36,5 @@ store.subscribe(render);
 
 + make inactive while execute
 
-+ configurable connection to the server
-+ offline mode
-
 + start/stop buttons
 */
