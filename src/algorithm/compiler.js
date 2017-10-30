@@ -43,6 +43,9 @@ const computeFunctions = {
 
 const compilers = {
   [NODES.CONDITION]: node => {
+    if (!node.comparisonValue || !node.trueValue || !node.falseValue)
+      throw { type: EXCEPTIONS.VALUE_NOT_SPECIFIED };
+
     const check = checkFunctions[node.operation](node.comparisonValue);
     const compute = a => (check(a) ? node.trueValue : node.falseValue);
 
@@ -54,6 +57,9 @@ const compilers = {
     return compiled;
   },
   [NODES.FORMULA]: node => {
+    if (node.secondOperand === OPERANDS.CONSTANT  && !node.parameterValue)
+      throw { type: EXCEPTIONS.VALUE_NOT_SPECIFIED };
+
     const { operation, secondOperand, parameterValue } = node;
     const compiled = {
       id: node.id,
@@ -120,7 +126,8 @@ const getSources = diagramNode => {
 };
 
 const validateSourcePorts = port => {
-  if (port.name.startsWith('in')) throw { type: EXCEPTIONS.TWO_INPUTS_CONNECTED };
+  if (port.name.startsWith('in'))
+    throw { type: EXCEPTIONS.TWO_INPUTS_CONNECTED };
 };
 
 const compileNode = (nodes, stack, node, diagramNode) => {
@@ -139,8 +146,7 @@ const compileNode = (nodes, stack, node, diagramNode) => {
 };
 
 const compileExitPoint = (nodes, exitPoint, diagramNode) => {
-  if(!diagramNode)
-    throw { type: EXCEPTIONS.ONE_OF_THE_EXITS_IS_ABSENT };
+  if (!diagramNode) throw { type: EXCEPTIONS.ONE_OF_THE_EXITS_IS_ABSENT };
 
   const stack = [exitPoint.id];
 

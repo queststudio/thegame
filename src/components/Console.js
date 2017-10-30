@@ -40,6 +40,7 @@ const Mistake = props => {
       'На вход блока приходит слишком много связей.',
     [EXCEPTIONS.ONE_OF_THE_EXITS_IS_ABSENT]:
       'Не найден один из вентилей.',
+    [EXCEPTIONS.VALUE_NOT_SPECIFIED]: 'Исходное значение одного из блоков не задано.'
   };
 
   const text = type ? messages[type] : 'Неизвестная ошибка.';

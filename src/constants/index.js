@@ -34,7 +34,8 @@ export const EXCEPTIONS = {
   TOO_MANY_SOURCES: 'too many sources',
   CIRCULAR_REFERENCE: 'circular reference',
   HANGING_LINK: 'link with not enough connections',
-  ONE_OF_THE_EXITS_IS_ABSENT: 'one of the exits is absent'
+  ONE_OF_THE_EXITS_IS_ABSENT: 'one of the exits is absent',
+  VALUE_NOT_SPECIFIED: 'value not specified',
 };
 
 export default {
