@@ -23,8 +23,6 @@ const equals = (expected, actual) => {
   return true;
 };
 
-const round = number => Math.round(number * 10) / 10;
-
 const getA = (manos, ventiles) => {
   if (
     equals([0, 0, 0, 1, 1, 1], ventiles) ||
@@ -47,7 +45,7 @@ const getA = (manos, ventiles) => {
     equals([1, 1, 1, 0, 1, 1], ventiles) ||
     equals([1, 1, 1, 1, 0, 1], ventiles)
   ) {
-    return manos[0] * 0.65 * Math.min(ventiles[0], ventiles[1], ventiles[2]);
+    return manos[0] * 0.65 * (Math.min(ventiles[0], ventiles[1], ventiles[2])/ 100);
   }
 
   if (
