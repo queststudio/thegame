@@ -1,15 +1,20 @@
 import React from 'react';
 import { EXCEPTIONS } from '../constants/index';
 
+function round(value, precision) {
+  var multiplier = Math.pow(10, precision || 0);
+  return Math.round(value * multiplier) / multiplier;
+}
+
 const Message = props => {
   return <div className="message">{props.message.text}</div>;
 };
 
 const Manos = props => (
-  <div className="input">Манометры: {props.manos.join(', ')}</div>
+  <div className="input">Манометры: {props.manos.map(x=>round(x, 1)).join(', ')}</div>
 );
 const Ventiles = props => (
-  <div className="output">Вентили: {props.ventiles.join(', ')}</div>
+  <div className="output">Вентили: {props.ventiles.map(x=>Math.round(x)).join(', ')}</div>
 );
 
 const FinishedRound = props => {
