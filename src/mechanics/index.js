@@ -87,7 +87,7 @@ const getMano1 = (manos, ventiles) => {
     r = r - a;
   }
 
-  return round(r);
+  return round(r * 10) / 10;
 };
 
 const getMano2 = (manos, ventiles) => {
@@ -118,7 +118,7 @@ const getMano2 = (manos, ventiles) => {
 
   if (equals([1, 1, 1, 1, 1, 1], ventiles)) r = r - 0.6 * a;
 
-  return round(r);
+  return round(r * 10) / 10;
 };
 const getMano3 = (manos, ventiles) => {
   let r = manos[0];
@@ -157,7 +157,7 @@ const getMano3 = (manos, ventiles) => {
     r = manos[2] + a / 100 * Math.min(ventiles[2], ventiles[3], ventiles[4]);
   }
 
-  return round(r);
+  return round(r * 10) / 10;
 };
 
 export const calculateNewState = (manos, ventiles) => {
