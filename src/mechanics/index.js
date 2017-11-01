@@ -13,12 +13,13 @@ export const drop = () => {
 };
 
 const equals = (expected, actual) => {
-  if (expected === actual) return true;
   if (expected == null || actual == null) return false;
   if (expected.length !== actual.length) return false;
 
+  const normalized = actual.map(x => (x > 0 ? 1 : 0));
+
   for (var i = 0; i < expected.length; ++i)
-    if (expected[i] != actual[i]) return false;
+    if (expected[i] != normalized[i]) return false;
   return true;
 };
 
@@ -32,12 +33,13 @@ const getA = (manos, ventiles) => {
   )
     return (
       manos[0] +
-      manos[1] / 100 * Math.min(ventiles[0], ventiles[1], ventiles[2])
+      manos[1] / 100 * (Math.min(ventiles[0], ventiles[1], ventiles[2]) / 100)
     );
 
   if (equals([0, 1, 1, 0, 0, 1], ventiles))
     return (
-      manos[0] - 0.04 / 100 * Math.min(ventiles[0], ventiles[1], ventiles[2])
+      manos[0] -
+      0.04 / 100 * (Math.min(ventiles[0], ventiles[1], ventiles[2]) / 100)
     );
 
   if (
@@ -46,7 +48,7 @@ const getA = (manos, ventiles) => {
   )
     return (
       manos[1] +
-      manos[1] / 100 * Math.min(ventiles[3], ventiles[4], ventiles[5])
+      manos[1] / 100 * (Math.min(ventiles[3], ventiles[4], ventiles[5]) / 100)
     );
 
   if (
@@ -55,11 +57,23 @@ const getA = (manos, ventiles) => {
   )
     return (
       manos[0] +
-      manos[1] / 100 * Math.min(ventiles[0], ventiles[1], ventiles[2])
+      manos[1] / 100 * (Math.min(ventiles[0], ventiles[1], ventiles[2]) / 100)
     );
 
-  if (equals([1, 1, 1, '*', '*', '*'], ventiles))
-    return 10 * Math.min(ventiles[0], ventiles[1], ventiles[2]);
+  if (
+    equals([1, 1, 1, 0, 0, 0], ventiles) ||
+    equals([1, 1, 1, 0, 0, 1], ventiles) ||
+    equals([1, 1, 1, 0, 1, 0], ventiles) ||
+    equals([1, 1, 1, 0, 1, 1], ventiles) ||
+    equals([1, 1, 1, 1, 0, 1], ventiles) ||
+    equals([1, 1, 1, 1, 1, 0], ventiles) ||
+    equals([1, 1, 1, 1, 1, 1], ventiles)
+  ) {
+    return (
+      (man[1] - man[0]) *
+      (Math.min(ventiles[0], ventiles[1], ventiles[2]) / 100)
+    );
+  }
 };
 
 const getMano1 = (manos, ventiles) => {
@@ -154,7 +168,9 @@ const getMano3 = (manos, ventiles) => {
   }
 
   if (equals([1, 1, 1, 1, 1, 1], ventiles)) {
-    r = manos[2] + a / 100 * Math.min(ventiles[2], ventiles[3], ventiles[4]);
+    r =
+      manos[2] +
+      a / 100 * (Math.min(ventiles[2], ventiles[3], ventiles[4]) / 100);
   }
 
   return round(r * 10) / 10;

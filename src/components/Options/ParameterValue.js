@@ -12,7 +12,7 @@ class ParameterValue extends React.Component {
   }
 
   onChanged(e) {
-    const value = parseInt(e.target.value)
+    const value = parseInt(e.target.value);
     this.props.onChanged(value);
   }
 
