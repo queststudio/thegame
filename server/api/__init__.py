@@ -23,9 +23,16 @@ api = Api(app)
 pwm = Adafruit_PCA9685.PCA9685()
 pwm.set_pwm_freq(60)
 
-def get_real_target(target):
+def get_manometer_target(target):
+    trimmed = 0 if target<0 else 100 if target>100 else target
     range = SERVO_MAX - SERVO_MIN
-    real_target = SERVO_MIN + target*range/100
+    real_target = SERVO_MIN + trimmed*range/100
+    return int(real_target)
+
+def get_ventile_target(target):
+    trimmed = 0 if target<0 else 25 if target>25 else target
+    range = SERVO_MAX - SERVO_MIN
+    real_target = SERVO_MIN + trimmed*range/25
     return int(real_target)
 
 class Root(Resource):
