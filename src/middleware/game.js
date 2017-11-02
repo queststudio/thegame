@@ -57,7 +57,7 @@ const sideEffects = {
 
     const servoState = manosAfter.concat(ventiles);
     servos(servoState).then(() => {
-      if (checkWinCondition(manosAfter)) dispatch(finishGame({ won: true }));
+      if (checkWinCondition(manosAfter)) dispatch(finishGame({ win: true }));
       else if (isLoseCondition(manosAfter))
         dispatch(finishGame({ lose: true }));
       else if (isIdleCondition()) dispatch(finishGame({ idle: true }));

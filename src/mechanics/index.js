@@ -147,7 +147,7 @@ export const checkWinCondition = manos => {
     unsuccessfulChecks++;
     successfulChecks = 0;
   }
-  return successfulChecks > ROUNDS_TO_WIN;
+  return successfulChecks >= ROUNDS_TO_WIN;
 };
 
 export const isLoseCondition = manos => {
