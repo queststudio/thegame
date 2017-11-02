@@ -163,5 +163,5 @@ export const isIdleCondition = manos => {
 };
 
 export const isWinCondition = manos => {
-  return manos[2] >= 7.6 && manos[2] <= 8.4;
+  return manos[2] >= 7 && manos[2] <= 8.5;
 };
