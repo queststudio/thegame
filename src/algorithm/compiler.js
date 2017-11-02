@@ -133,12 +133,11 @@ const validateSourcePorts = port => {
 const compileNode = (nodes, stack, node, diagramNode) => {
   if (stack.find(id => id === node.id))
     throw { type: EXCEPTIONS.CIRCULAR_REFERENCE };
-  stack.push(node.id);
 
   const compiled = compilers[node.type](node);
   const sources = getSources(diagramNode);
   compiled.sources = sources.map(source =>
-    compileNode(nodes, stack, nodes[source.id], source),
+    compileNode(nodes, [node.id, ...stack], nodes[source.id], source),
   );
   compiled.type = node.type;
 
@@ -148,11 +147,10 @@ const compileNode = (nodes, stack, node, diagramNode) => {
 const compileExitPoint = (nodes, exitPoint, diagramNode) => {
   if (!diagramNode) throw { type: EXCEPTIONS.ONE_OF_THE_EXITS_IS_ABSENT };
 
-  const stack = [exitPoint.id];
 
   const compiled = compilers[exitPoint.type](exitPoint);
   const sources = getSources(diagramNode).map(source =>
-    compileNode(nodes, stack, nodes[source.id], source),
+    compileNode(nodes, [exitPoint.id], nodes[source.id], source),
   );
 
   if (sources.length > 1) throw { type: EXCEPTIONS.TOO_MANY_SOURCES };
