@@ -16,6 +16,15 @@ import {
   calculateNewState,
 } from '../mechanics';
 
+const sanitizeNaNs = value => {
+  if (isNaN(value)) {
+    console.log('something very bad is happening');
+    return 0;
+  }
+
+  return value;
+};
+
 const sideEffects = {
   [actions.GAME.STARTED]: (dispatch, action, state) => {
     drop();
@@ -32,9 +41,10 @@ const sideEffects = {
       const ventiles = algorithm
         .execute(manos)
         .map(x => (x < 0 ? 0 : x))
-        .map(x => (x > 100 ? 100 : x));
+        .map(x => (x > 100 ? 100 : x))
+        .map(sanitizeNaNs);
 
-      const manosAfter = calculateNewState(manos, ventiles);
+      const manosAfter = calculateNewState(manos, ventiles).map(sanitizeNaNs);
 
       dispatch(finishRound({ id, manosAfter: manosAfter, ventiles }));
     } catch (err) {
