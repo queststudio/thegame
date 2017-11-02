@@ -1,4 +1,4 @@
-export const ROUNDS_TO_WIN = 30;
+export const ROUNDS_TO_WIN = 15;
 export const ROUNDS_TO_LOSE = 100;
 
 export const NODES = {
