@@ -43,7 +43,11 @@ const computeFunctions = {
 
 const compilers = {
   [NODES.CONDITION]: node => {
-    if (!node.comparisonValue || !node.trueValue || !node.falseValue)
+    if (
+      isNaN(node.comparisonValue) ||
+      isNaN(node.trueValue) ||
+      isNaN(node.falseValue)
+    )
       throw { type: EXCEPTIONS.VALUE_NOT_SPECIFIED };
 
     const check = checkFunctions[node.operation](node.comparisonValue);
@@ -57,7 +61,7 @@ const compilers = {
     return compiled;
   },
   [NODES.FORMULA]: node => {
-    if (node.secondOperand === OPERANDS.CONSTANT  && !node.parameterValue)
+    if (node.secondOperand === OPERANDS.CONSTANT && isNaN(node.parameterValue))
       throw { type: EXCEPTIONS.VALUE_NOT_SPECIFIED };
 
     const { operation, secondOperand, parameterValue } = node;
@@ -146,7 +150,6 @@ const compileNode = (nodes, stack, node, diagramNode) => {
 
 const compileExitPoint = (nodes, exitPoint, diagramNode) => {
   if (!diagramNode) throw { type: EXCEPTIONS.ONE_OF_THE_EXITS_IS_ABSENT };
-
 
   const compiled = compilers[exitPoint.type](exitPoint);
   const sources = getSources(diagramNode).map(source =>
