@@ -60,7 +60,7 @@ const getA = (manos, ventiles) => {
 };
 
 const getMano1 = (manos, ventiles) => {
-  return random(50, 100) / 10;
+  return random(60, 90) / 10;
 };
 
 const getMano2 = (manos, ventiles) => {
