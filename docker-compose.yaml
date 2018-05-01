@@ -1,0 +1,16 @@
+version: '2'  
+services:  
+  nginx:
+    build: ./client
+    container_name: thegame-ng02
+    ports:
+      - "8000:8000"
+    depends_on:
+      - service
+  service:
+    build: ./server
+    container_name: thegame-svc02
+    expose:
+      - "8088"
+    devices:
+      - "/dev/i2c-1:/dev/i2c-1"

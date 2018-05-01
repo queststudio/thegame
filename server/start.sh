@@ -1,1 +1,3 @@
-sudo gunicorn -c 'gunicorn_config.py' api:app
+#!/bin/bash
+
+gunicorn -c 'gunicorn_config.py' api:app
