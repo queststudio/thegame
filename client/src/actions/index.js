@@ -1,63 +1,40 @@
-import { guid } from '../utils/index';
-
-const ACTIONS = {
-  ALGORITHM_PANEL: {
-    DRAG_NODE: 'DRAG_NODE',
-    DROP_NODE: 'DROP_NODE',
-    SELECT_NODE: 'SELECT_NODE',
-    ABANDON_NODE: 'ABANDON_NODE',
-    MISTAKE: 'MISTAKE',
-  },
-  NODES: {
-    CREATE_NODE: 'CREATE_NODE',
-    CHANGE_NODE: 'CHANGE_NODE',
-    REMOVE_NODE: 'REMOVE_NODE',
-  },
-  MESSAGES: {
-    CREATE_MESSAGE: 'CREATE_MESSAGE',
-  },
-  GAME: {
-    STARTED: 'GAME_STARTED',
-    ROUND_STARTED: 'ROUND_STARTED',
-    ROUND_FINISHED: 'ROUND_FINISHED',
-    FINISHED: 'GAME_FINISHED',
-  },
-};
+import { guid } from '../utils/index'
+import ACTIONS from './actions'
+import { createAction } from 'redux-actions'
 
 export const createMessage = text => ({
   type: ACTIONS.MESSAGES.CREATE_MESSAGE,
   payload: {
     text,
-    timestamp: Date.now(),
-  },
-});
+    timestamp: Date.now()
+  }
+})
 
 export const startRound = payload => ({
   type: ACTIONS.GAME.ROUND_STARTED,
   payload: {
     id: guid(),
     timestamp: Date.now(),
-    ...payload,
-  },
-});
+    ...payload
+  }
+})
 
-export const finishRound = payload => ({
-  type: ACTIONS.GAME.ROUND_FINISHED,
-  payload,
-});
-
-export const finishGame = payload => ({
-  type: ACTIONS.GAME.FINISHED,
-  payload,
-});
+export const finishRound = createAction(ACTIONS.GAME.ROUND_FINISHED)
+export const finishGame = createAction(ACTIONS.GAME.FINISHED)
 
 export const algorithmicMistake = payload => ({
   type: ACTIONS.ALGORITHM_PANEL.MISTAKE,
   payload: {
     id: guid(),
     timestamp: Date.now(),
-    ...payload,
-  },
-});
+    ...payload
+  }
+})
 
-export default ACTIONS;
+export const dragNode = createAction(ACTIONS.ALGORITHM_PANEL.DRAG_NODE)
+export const changeNode = createAction(ACTIONS.NODES.CHANGE_NODE)
+export const startGame = createAction(ACTIONS.GAME.STARTED)
+
+export const menuSave = createAction(ACTIONS.MENU.SAVE)
+
+export default ACTIONS
