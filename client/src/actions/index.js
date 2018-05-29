@@ -32,8 +32,14 @@ export const algorithmicMistake = payload => ({
 })
 
 export const dragNode = createAction(ACTIONS.ALGORITHM_PANEL.DRAG_NODE)
-export const changeNode = createAction(ACTIONS.NODES.CHANGE_NODE)
+export const changeNode = createAction(ACTIONS.NODES.CHANGE)
 export const startGame = createAction(ACTIONS.GAME.STARTED)
+
+export const dropNode = createAction(ACTIONS.ALGORITHM_PANEL.DROP_NODE)
+export const selectNode = createAction(ACTIONS.ALGORITHM_PANEL.SELECT_NODE)
+export const abandonNode = createAction(ACTIONS.ALGORITHM_PANEL.ABANDON_NODE)
+export const createNode = createAction(ACTIONS.NODES.CREATE)
+export const removeNode = createAction(ACTIONS.NODES.REMOVE)
 
 export const menuSave = createAction(ACTIONS.MENU.SAVE)
 

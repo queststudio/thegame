@@ -1,64 +1,70 @@
-import React, { PropTypes } from 'react';
-import { DiagramWidget } from 'storm-react-diagrams';
-import './src.css';
-import { getAlgorithm } from '../algorithm';
-import actions from '../actions';
-import { connect } from 'react-redux';
+import React, { PropTypes } from 'react'
+import { DiagramWidget } from 'storm-react-diagrams'
+import './src.css'
+import { getAlgorithm } from '../algorithm'
+import {
+  dropNode,
+  selectNode,
+  abandonNode,
+  createNode,
+  removeNode
+} from '../actions'
+import { connect } from 'react-redux'
 
-const Loading = () => <div>Загружаю</div>;
+const Loading = () => <div>Загружаю</div>
 
 class AlgorithmPanel extends React.Component {
   constructor(props) {
-    super(props);
-    this.state = {};
-    this.onNodeDrop = this.onNodeDrop.bind(this);
+    super(props)
+    this.state = {}
+    this.onNodeDrop = this.onNodeDrop.bind(this)
   }
   onNodeDrop(event) {
-    const { algorithm } = this.state;
-    const { dropNode } = this.props;
-    const dropPoint = algorithm.getDiagramEngine().getRelativeMousePoint(event);
+    const { algorithm } = this.state
+    const { dropNode } = this.props
+    const dropPoint = algorithm.getDiagramEngine().getRelativeMousePoint(event)
     dropNode({
       x: dropPoint.x,
-      y: dropPoint.y,
-    });
+      y: dropPoint.y
+    })
   }
   componentDidMount() {
-    const { selectNode, abandonNode, createNode, removeNode } = this.props;
-    const algorithm = getAlgorithm();
+    const { selectNode, abandonNode, createNode, removeNode } = this.props
+    const algorithm = getAlgorithm()
 
     this.setState({
       ...this.state,
-      algorithm,
-    });
+      algorithm
+    })
 
     algorithm.onNodeCreated = node => {
-      createNode(node);
-    };
+      createNode(node)
+    }
     algorithm.onNodeRemoved = node => {
-      removeNode(node);
-    };
+      removeNode(node)
+    }
 
     algorithm.onSelectionChanged = (node, isSelected) => {
-      if (isSelected) selectNode(node);
-      else abandonNode(node);
-    };
+      if (isSelected) selectNode(node)
+      else abandonNode(node)
+    }
 
-    algorithm.initialize();
+    algorithm.initialize()
   }
 
   render() {
-    const { algorithm } = this.state;
+    const { algorithm } = this.state
 
     return (
       <div
         style={{
           width: 800 + 'px',
           height: 600 + 'px',
-          border: '1px solid red',
+          border: '1px solid red'
         }}
         onDrop={this.onNodeDrop}
         onDragOver={event => {
-          event.preventDefault();
+          event.preventDefault()
         }}
       >
         {algorithm ? (
@@ -67,36 +73,21 @@ class AlgorithmPanel extends React.Component {
           <Loading />
         )}
       </div>
-    );
+    )
   }
 }
 
 const mapStateToProps = state => {
   return {
-    algorithmPanel: state.algorithmPanel,
-  };
-};
+    algorithmPanel: state.algorithmPanel
+  }
+}
 
 const mapDispatchToProps = {
-  dropNode: payload => ({
-    type: actions.ALGORITHM_PANEL.DROP_NODE,
-    payload,
-  }),
-  selectNode: payload => ({
-    type: actions.ALGORITHM_PANEL.SELECT_NODE,
-    payload,
-  }),
-  abandonNode: payload => ({
-    type: actions.ALGORITHM_PANEL.ABANDON_NODE,
-    payload,
-  }),
-  createNode: payload => ({
-    type: actions.NODES.CREATE_NODE,
-    payload,
-  }),
-  removeNode: payload => ({
-    type: actions.NODES.REMOVE_NODE,
-    payload,
-  }),
-};
-export default connect(mapStateToProps, mapDispatchToProps)(AlgorithmPanel);
+  dropNode,
+  selectNode,
+  abandonNode,
+  createNode,
+  removeNode
+}
+export default connect(mapStateToProps, mapDispatchToProps)(AlgorithmPanel)
