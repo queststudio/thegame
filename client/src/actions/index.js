@@ -42,5 +42,6 @@ export const createNode = createAction(ACTIONS.NODES.CREATE)
 export const removeNode = createAction(ACTIONS.NODES.REMOVE)
 
 export const menuSave = createAction(ACTIONS.MENU.SAVE)
+export const menuLoad = createAction(ACTIONS.MENU.LOAD)
 
 export default ACTIONS

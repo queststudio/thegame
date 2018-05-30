@@ -1,10 +1,18 @@
 import { saveAs } from 'file-saver'
+import { readAsText } from 'promise-file-reader'
 
 export const downloadAsJson = subj => {
   const json = JSON.stringify(subj)
   const blob = new Blob([json], { type: 'application/json' })
 
   saveAs(blob, 'save')
+}
+
+export async function loadJson(file) {
+  if (file.name.endsWith('.json')) {
+    return readAsText(file).then(content => JSON.parse(content))
+  }
+  return Promise.reject(new Error('File type is not json'))
 }
 
 export const guid = () =>

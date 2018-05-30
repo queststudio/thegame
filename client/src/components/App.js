@@ -9,7 +9,8 @@ import actions, {
   changeNode,
   startGame,
   finishGame,
-  menuSave
+  menuSave,
+  menuLoad
 } from '../actions'
 import Menu from './Menu'
 
@@ -37,7 +38,8 @@ class App extends React.Component {
       startGame,
       stopGame,
       running,
-      menuSave
+      menuSave,
+      menuLoad
     } = this.props
     const activeNode = nodes.find(x => x.id === activeNodeId)
 
@@ -45,7 +47,7 @@ class App extends React.Component {
       <div className="app">
         <div className="algorithm-panel-wrapper">
           <AlgorithmPanel />
-          <Menu onSave={menuSave} />
+          <Menu onSave={menuSave} onLoad={menuLoad} />
         </div>
         <div className="tray">
           <Nodes onNodeDrag={dragNode} />
@@ -80,6 +82,7 @@ const mapDispatchToProps = {
   changeNode,
   startGame,
   stopGame: () => finishGame({ stop: true }),
-  menuSave
+  menuSave,
+  menuLoad
 }
 export default connect(mapStateToProps, mapDispatchToProps)(App)
