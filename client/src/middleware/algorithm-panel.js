@@ -1,8 +1,15 @@
-import actions from '../actions'
+import ACTIONS from '../actions'
 import { getAlgorithm } from '../algorithm'
 
 const sideEffects = {
-  [actions.ALGORITHM_PANEL.DROP_NODE]: (action, getState) => {
+  [ACTIONS.ALGORITHM_PANEL.SET_STATE]: (action, getState) => {
+    const algorithm = getAlgorithm()
+    const { nodes } = action.payload
+
+    algorithm.cleanUp()
+    nodes.forEach(node => algorithm.addNode(node))
+  },
+  [ACTIONS.ALGORITHM_PANEL.DROP_NODE]: (action, getState) => {
     const algorithm = getAlgorithm()
     const node = getState().algorithmPanel.dragNode
     if (node)
@@ -11,7 +18,7 @@ const sideEffects = {
         ...node
       })
   },
-  [actions.NODES.CHANGE]: (action, getState) => {
+  [ACTIONS.NODES.CHANGE]: (action, getState) => {
     const algorithm = getAlgorithm()
     algorithm.updateNode(action.payload)
   }

@@ -10,7 +10,10 @@ const reducers = {
   },
   [actions.NODES.REMOVE]: (action, state) => {
     const index = state.findIndex(x => x.id === action.payload.id)
-    return [...state.slice(0, index), ...state.slice(index + 1)]
+
+    return index >= 0
+      ? [...state.slice(0, index), ...state.slice(index + 1)]
+      : state
   }
 }
 

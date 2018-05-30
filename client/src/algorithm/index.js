@@ -21,17 +21,23 @@ export class Algorithm {
       {
         index: 0,
         label: 'Манометр 1',
-        type: CONSTANTS.NODES.INPUT
+        type: CONSTANTS.NODES.INPUT,
+        x: 100,
+        y: 100
       },
       {
         index: 1,
         label: 'Манометр 2',
-        type: CONSTANTS.NODES.INPUT
+        type: CONSTANTS.NODES.INPUT,
+        x: 100,
+        y: 250
       },
       {
         index: 2,
         label: 'Манометр 3',
-        type: CONSTANTS.NODES.INPUT
+        type: CONSTANTS.NODES.INPUT,
+        x: 100,
+        y: 400
       }
     ]
     this.outputs = [
@@ -44,7 +50,9 @@ export class Algorithm {
     ].map((label, index) => ({
       index,
       label,
-      type: CONSTANTS.NODES.OUTPUT
+      type: CONSTANTS.NODES.OUTPUT,
+      x: 600,
+      y: 30 + index * 100
     }))
 
     this.nodes = {}
@@ -76,7 +84,7 @@ export class Algorithm {
     this.activeModel = new SRD.DiagramModel()
     this.activeModel.addListener({
       nodesUpdated: (node, created) => {
-        console.log('node:', node, created)
+        if (!created) this.onNodeRemoved(node)
       },
       linksUpdated: (link, created) => {
         if (created)
@@ -93,39 +101,8 @@ export class Algorithm {
     })
     this.diagramEngine.setDiagramModel(this.activeModel)
 
-    this.inputs
-      .map((meta, index) => {
-        const node = new SRD.DefaultNodeModel(meta.label, 'rgb(0,192,255)')
-        node.addListener({
-          selectionChanged: this.selectionChanged,
-          entityRemoved: this.nodeRemoved
-        })
-        node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'))
-        node.x = 100
-        node.y = 100 + index * 150
-
-        return { node, meta }
-      })
-      .forEach(({ node, meta }) => this._addNode(node, meta))
-
-    this.outputs
-      .map((meta, index) => {
-        const node = new SRD.DefaultNodeModel(meta.label, 'rgb(0,192,255)')
-        node.addListener({
-          selectionChanged: this.selectionChanged,
-          entityRemoved: this.nodeRemoved
-        })
-        node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'))
-        node.x = 600
-        node.y = 30 + index * 100
-        return node
-      })
-      .forEach(node =>
-        this._addNode(node, {
-          type: CONSTANTS.NODES.OUTPUT,
-          label: node.name
-        })
-      )
+    this.inputs.forEach(node => this.addNode(node))
+    this.outputs.forEach(node => this.addNode(node))
   }
 
   addNode(meta) {
@@ -148,7 +125,9 @@ export class Algorithm {
 
   nodeProducers = {
     [CONSTANTS.NODES.FORMULA]: this.produceFormula.bind(this),
-    [CONSTANTS.NODES.CONDITION]: this.produceCondition.bind(this)
+    [CONSTANTS.NODES.CONDITION]: this.produceCondition.bind(this),
+    [CONSTANTS.NODES.INPUT]: this.produceInput.bind(this),
+    [CONSTANTS.NODES.OUTPUT]: this.produceOutput.bind(this)
   }
 
   nodeUpdaters = {
@@ -199,8 +178,7 @@ export class Algorithm {
   produceFormula(meta) {
     const node = new SRD.DefaultNodeModel(this.getFormulaLabel(meta), 'purple')
     node.addListener({
-      selectionChanged: this.selectionChanged,
-      entityRemoved: this.nodeRemoved
+      selectionChanged: this.selectionChanged
     })
     node.addPort(new SRD.DefaultPortModel(true, `in-A`, 'A'))
     node.addPort(new SRD.DefaultPortModel(true, `in-B`, 'B'))
@@ -214,8 +192,7 @@ export class Algorithm {
   produceCondition(meta) {
     const node = new SRD.DefaultNodeModel(this.getConditionLabel(meta), 'green')
     node.addListener({
-      selectionChanged: this.selectionChanged,
-      entityRemoved: this.nodeRemoved
+      selectionChanged: this.selectionChanged
     })
     node.addPort(new SRD.DefaultPortModel(true, `in`, 'вход'))
     node.addPort(new SRD.DefaultPortModel(false, `out`, 'выход'))
@@ -223,6 +200,37 @@ export class Algorithm {
     node.y = meta.y
 
     return node
+  }
+
+  produceInput(meta) {
+    const node = new SRD.DefaultNodeModel(meta.label, 'rgb(0,192,255)')
+    node.addListener({
+      selectionChanged: this.selectionChanged
+    })
+    node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'Значение'))
+    node.x = meta.x
+    node.y = meta.y
+
+    return node
+  }
+
+  produceOutput(meta) {
+    const node = new SRD.DefaultNodeModel(meta.label, 'rgb(0,192,255)')
+    node.addListener({
+      selectionChanged: this.selectionChanged
+    })
+    node.addPort(new SRD.DefaultPortModel(true, `in-1`, 'Значение'))
+    node.x = meta.x
+    node.y = meta.y
+
+    return node
+  }
+
+  cleanUp() {
+    const diagram = this.getActiveDiagram()
+    Object.keys(this.nodes)
+      .map(key => diagram.getNode(key))
+      .forEach(node => diagram.removeNode(node))
   }
 
   _addNode(node, meta) {
