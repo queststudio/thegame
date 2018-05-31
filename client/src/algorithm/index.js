@@ -89,11 +89,11 @@ export class Algorithm {
       linksUpdated: (link, created) => {
         if (created)
           link.addListener({
-            sourcePortChanged: (a, b) => {
-              console.log(a, b)
+            sourcePortChanged: (link, port) => {
+              console.log(link, port)
             },
-            targetPortChanged: (a, b) => {
-              console.log(a, b)
+            targetPortChanged: (link, port) => {
+              console.log(link, port)
             }
           })
         console.log('link:', link, created)
@@ -181,10 +181,14 @@ export class Algorithm {
       selectionChanged: this.selectionChanged
     })
     node.addPort(new SRD.DefaultPortModel(true, `in-A`, 'A'))
-    node.addPort(new SRD.DefaultPortModel(true, `in-B`, 'B'))
+
+    if (meta.secondOperand !== CONSTANTS.OPERANDS.CONSTANT)
+      node.addPort(new SRD.DefaultPortModel(true, `in-B`, 'B'))
     node.addPort(new SRD.DefaultPortModel(false, `out-1`, 'результат'))
     node.x = meta.x
     node.y = meta.y
+
+    node.name = this.getFormulaLabel(meta)
 
     return node
   }
@@ -198,6 +202,8 @@ export class Algorithm {
     node.addPort(new SRD.DefaultPortModel(false, `out`, 'выход'))
     node.x = meta.x
     node.y = meta.y
+
+    node.name = this.getConditionLabel(meta)
 
     return node
   }
