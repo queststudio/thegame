@@ -84,7 +84,10 @@ export class Algorithm {
     this.activeModel = new SRD.DiagramModel()
     this.activeModel.addListener({
       nodesUpdated: (node, created) => {
-        if (!created) this.onNodeRemoved(node)
+        if (!node) console.warn('nodesUpdated: node is null. fishy.')
+        if (node && !created) {
+          this.onNodeRemoved(node)
+        }
       },
       linksUpdated: (link, created) => {
         if (created)
