@@ -1,28 +1,35 @@
-import actions from '../actions';
-import { getAlgorithm } from '../algorithm';
+import ACTIONS from '../actions'
+import { getAlgorithm } from '../algorithm'
 
 const sideEffects = {
-  [actions.ALGORITHM_PANEL.DROP_NODE]: (action, getState) => {
-    const algorithm = getAlgorithm();
-    const node = getState().algorithmPanel.dragNode;
+  [ACTIONS.ALGORITHM_PANEL.SET_STATE]: (action, getState) => {
+    const algorithm = getAlgorithm()
+    const { nodes } = action.payload
+
+    algorithm.cleanUp()
+    nodes.forEach(node => algorithm.addNode(node))
+  },
+  [ACTIONS.ALGORITHM_PANEL.DROP_NODE]: (action, getState) => {
+    const algorithm = getAlgorithm()
+    const node = getState().algorithmPanel.dragNode
     if (node)
       algorithm.addNode({
         ...action.payload,
-        ...node,
-      });
+        ...node
+      })
   },
-  [actions.NODES.CHANGE_NODE]: (action, getState) => {
-    const algorithm = getAlgorithm();
-    algorithm.updateNode(action.payload);
-  },
-};
+  [ACTIONS.NODES.CHANGE]: (action, getState) => {
+    const algorithm = getAlgorithm()
+    algorithm.updateNode(action.payload)
+  }
+}
 
 const algorithmPanelMiddleware = ({ dispatch, getState }) => {
   return next => action => {
-    if (sideEffects[action.type]) sideEffects[action.type](action, getState);
+    if (sideEffects[action.type]) sideEffects[action.type](action, getState)
 
-    return next(action);
-  };
-};
+    return next(action)
+  }
+}
 
-export default algorithmPanelMiddleware;
+export default algorithmPanelMiddleware

@@ -1,21 +1,29 @@
-import React from 'react';
-import { connect } from 'react-redux';
-import Nodes from './Nodes';
-import AlgorithmPanel from './AlgorithmPanel';
-import Options from './Options';
-import Console from './Console';
-import actions, { finishGame } from '../actions';
+import React from 'react'
+import { connect } from 'react-redux'
+import Nodes from './Nodes'
+import AlgorithmPanel from './AlgorithmPanel'
+import Options from './Options'
+import Console from './Console'
+import actions, {
+  dragNode,
+  changeNode,
+  startGame,
+  finishGame,
+  menuSave,
+  menuLoad
+} from '../actions'
+import Menu from './Menu'
 
 const StartButton = props => {
-  const text = props.running ? 'завершить исполнение' : 'начать исполнение';
-  const onClick = props.running ? props.stopGame : props.startGame;
+  const text = props.running ? 'завершить исполнение' : 'начать исполнение'
+  const onClick = props.running ? props.stopGame : props.startGame
 
   return (
     <div className="btn" onClick={onClick}>
       <span className="txt">{text}</span>
     </div>
-  );
-};
+  )
+}
 
 class App extends React.Component {
   render() {
@@ -30,13 +38,16 @@ class App extends React.Component {
       startGame,
       stopGame,
       running,
-    } = this.props;
-    const activeNode = nodes.find(x => x.id === activeNodeId);
+      menuSave,
+      menuLoad
+    } = this.props
+    const activeNode = nodes.find(x => x.id === activeNodeId)
 
     return (
       <div className="app">
         <div className="algorithm-panel-wrapper">
           <AlgorithmPanel />
+          <Menu onSave={menuSave} onLoad={menuLoad} />
         </div>
         <div className="tray">
           <Nodes onNodeDrag={dragNode} />
@@ -51,7 +62,7 @@ class App extends React.Component {
           />
         </div>
       </div>
-    );
+    )
   }
 }
 
@@ -62,23 +73,16 @@ const mapStateToProps = state => {
     messages: state.messages,
     rounds: state.game.rounds,
     mistakes: state.algorithmPanel.mistakes,
-    running: state.game.running,
-  };
-};
+    running: state.game.running
+  }
+}
 
 const mapDispatchToProps = {
-  dragNode: payload => ({
-    type: actions.ALGORITHM_PANEL.DRAG_NODE,
-    payload,
-  }),
-  changeNode: payload => ({
-    type: actions.NODES.CHANGE_NODE,
-    payload,
-  }),
-  startGame: payload => ({
-    type: actions.GAME.STARTED,
-    payload,
-  }),
+  dragNode,
+  changeNode,
+  startGame,
   stopGame: () => finishGame({ stop: true }),
-};
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+  menuSave,
+  menuLoad
+}
+export default connect(mapStateToProps, mapDispatchToProps)(App)

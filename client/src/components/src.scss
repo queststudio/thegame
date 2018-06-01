@@ -233,8 +233,19 @@
       .btn {
         border: solid 1px;
         border-radius: 5px;
-        margin-bottom: 2px;
-        width: 200px;
+        margin: 0 0 2 0px;
+        text-align: center;
+        padding: 20px 0;
+      }
+    }
+
+    .menu{
+      display:flex;
+      .btn {
+        border: solid 1px;
+        border-radius: 5px;
+        width:200px;
+        margin: 10px;
         text-align: center;
         padding: 20px 0;
       }
